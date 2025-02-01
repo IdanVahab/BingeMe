@@ -2,6 +2,8 @@ package com.example.bingeme.data.remote
 
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.MovieResponse
+import com.example.bingeme.data.models.Series
+import com.example.bingeme.data.models.SeriesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -29,6 +31,21 @@ interface TmdbApiService {
     ): Response<MovieResponse>
 
     /**
+     * Fetches a list of popular movies from the TMDB API.
+     *
+     * @param apiKey The API key for authenticating the request.
+     * @param language The language for the movie data (default is "en-US").
+     * @param page The page number for paginated results (default is 1).
+     * @return A Response object containing a SeriesResponse with the list of popular tv series.
+     */
+    @GET("tv/popular")
+    suspend fun getPopularTVSeries(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Response<SeriesResponse>
+
+    /**
      * Fetches detailed information about a specific movie from the TMDB API.
      *
      * @param movieId The ID of the movie to retrieve details for.
@@ -42,4 +59,19 @@ interface TmdbApiService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String = "en-US"
     ): Response<Movie>
+
+    /**
+     * Fetches detailed information about a specific TV series from the TMDB API.
+     *
+     * @param tvId The ID of the TV series to retrieve details for.
+     * @param apiKey The API key for authenticating the request.
+     * @param language The language for the TV series details (default is "en-US").
+     * @return A Response object containing a TVShow with the series' details.
+     */
+    @GET("tv/{tv_id}")
+    suspend fun getTVSeriesDetails(
+        @Path("tv_id") tvId: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "en-US"
+    ): Response<Series>
 }

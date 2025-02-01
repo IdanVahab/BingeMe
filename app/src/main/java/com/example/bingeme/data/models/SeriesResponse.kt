@@ -7,6 +7,9 @@ package com.example.bingeme.data.models
  * Currently, the class is empty but can be expanded to include properties
  * such as the list of series, pagination details, or other metadata.
  */
-class SeriesResponse {
-    // Add properties and methods as needed to represent and manipulate series API responses
-}
+data class SeriesResponse (
+    val page: Int,                 // Current page number
+    val results: List<Series>,      // List of movies for the current page
+    val total_pages: Int,          // Total number of pages
+    val total_results: Int         // Total number of movie results
+)

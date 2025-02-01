@@ -1,5 +1,6 @@
 package com.example.bingeme.domain.repositories
 
+import com.example.bingeme.data.local.dao.WatchlistDao
 import com.example.bingeme.data.remote.TmdbApiService
 import javax.inject.Inject
 
@@ -10,7 +11,8 @@ import javax.inject.Inject
  * @param apiService Injected TMDB API service for fetching series data.
  */
 class SeriesRepository @Inject constructor(
-    private val apiService: TmdbApiService
+    private val apiService: TmdbApiService,
+    private val watchlistDao: WatchlistDao
 ) {
 
     /**
@@ -19,5 +21,8 @@ class SeriesRepository @Inject constructor(
      * @param apiKey The API key for authentication.
      * @return A response containing the popular series.
      */
-    suspend fun getPopularSeries(apiKey: String) = apiService.getPopularMovies(apiKey) // Note: Adjust endpoint if necessary.
+    suspend fun getPopularSeries(apiKey: String) = apiService.getPopularTVSeries(apiKey) // Note: Adjust endpoint if necessary.
+
+    suspend fun getMovieDetails(apiKey: String, seriesId: Int) =
+        apiService.getTVSeriesDetails(seriesId, apiKey)
 }
