@@ -8,7 +8,7 @@
 
     <!-- Movie Poster -->
     <ImageView
-        android:id="@+id/moviePoster"
+        android:id="@+id/poster"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
@@ -16,7 +16,7 @@
 
     <!-- Movie Title -->
     <TextView
-        android:id="@+id/movieTitle"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -26,7 +26,7 @@
 
     <!-- Movie Release Date -->
     <TextView
-        android:id="@+id/movieReleaseDate"
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

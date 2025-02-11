@@ -40,6 +40,15 @@ interface WatchlistDao {
     fun getAllMovies(): Flow<List<MovieEntity>>
 
     /**
+     * Checks if a specific movie is in the watchlist.
+     *
+     * @param movieId The ID of the movie to check.
+     * @return True if the movie is in the watchlist, false otherwise.
+     */
+    @Query("SELECT EXISTS(SELECT 1 FROM movies WHERE id = :movieId)")
+    suspend fun isMovieInWatchlist(movieId: Int): Boolean
+
+    /**
      * Inserts a series into the watchlist. If a series with the same ID already exists,
      * it replaces the old entry.
      *
@@ -62,14 +71,15 @@ interface WatchlistDao {
      * @return A List of SeriesEntity objects in the watchlist.
      */
     @Query("SELECT * FROM series")
-    suspend fun getAllSeries(): List<SeriesEntity>
+    fun getAllSeries(): Flow<List<SeriesEntity>>
 
     /**
-     * Checks if a specific movie is in the watchlist.
+     * Checks if a specific series is in the watchlist.
      *
-     * @param movieId The ID of the movie to check.
-     * @return True if the movie is in the watchlist, false otherwise.
+     * @param seriesId The ID of the series to check.
+     * @return True if the series
+     * is in the watchlist, false otherwise.
      */
-    @Query("SELECT EXISTS(SELECT 1 FROM movies WHERE id = :movieId)")
-    suspend fun isMovieInWatchlist(movieId: Int): Boolean
+    @Query("SELECT EXISTS(SELECT 1 FROM series WHERE id = :seriesId)")
+    suspend fun isSeriesInWatchlist(seriesId: Int): Boolean
 }

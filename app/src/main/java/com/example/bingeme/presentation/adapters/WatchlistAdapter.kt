@@ -4,12 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.bingeme.R
 import com.example.bingeme.data.models.Movie
 
@@ -31,7 +29,7 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.media_item, parent, false)
         return WatchlistViewHolder(view)
     }
 
@@ -44,7 +42,7 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
      * ViewHolder for watchlist items in the RecyclerView.
      */
     inner class WatchlistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val movieTitle: TextView = itemView.findViewById(R.id.movieTitle)
+        private val movieTitle: TextView = itemView.findViewById(R.id.title)
         private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
 
         fun bind(movie: Movie) {

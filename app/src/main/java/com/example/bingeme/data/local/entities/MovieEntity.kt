@@ -21,7 +21,7 @@ data class MovieEntity(
     val title: String,                  // Movie title
     val overview: String,               // Short description of the movie
     val poster_path: String,            // Path to poster image
-    val releaseDate: String,            // Release date in string format
+    val release_date: String,            // Release date in string format
     val isFavorite: Boolean,            // Flag to mark the movie as favorite
     val rating: Double                  // Average rating of the movie
 )

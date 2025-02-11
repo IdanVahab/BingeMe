@@ -1,15 +1,17 @@
 package com.example.bingeme.data.models
 
 /**
- * Represents the response model for a series-related API request.
- * This class is a placeholder for parsing and managing the results from the API.
+ * Represents the response model for a paginated series API request.
+ * This data class is used to parse and manage the results from the API.
  *
- * Currently, the class is empty but can be expanded to include properties
- * such as the list of series, pagination details, or other metadata.
+ * @param page The current page number in the paginated results.
+ * @param results The list of series returned by the API for the current page.
+ * @param total_pages The total number of pages available in the API results.
+ * @param total_results The total number of series results available.
  */
-data class SeriesResponse (
+data class SeriesResponse(
     val page: Int,                 // Current page number
-    val results: List<Series>,      // List of movies for the current page
+    val results: List<Series>,      // List of series for the current page
     val total_pages: Int,          // Total number of pages
-    val total_results: Int         // Total number of movie results
+    val total_results: Int         // Total number of series results
 )

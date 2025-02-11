@@ -17,8 +17,8 @@ fun Movie.toEntity(): MovieEntity {
         id = id,
         title = title ?: "",
         overview = overview ?: "",
-        poster_path = poster_path ?: "",
-        releaseDate = releaseDate ?: "",
+        poster_path = posterPath ?: "",
+        release_date = releaseDate ?: "",
         isFavorite = isFavorite,
         rating = rating
     )
@@ -34,8 +34,8 @@ fun MovieEntity.toModel(): Movie {
         id = id,
         title = title,
         overview = overview,
-        poster_path = poster_path,
-        releaseDate = releaseDate,
+        posterPath = poster_path,
+        releaseDate = release_date,
         isFavorite = isFavorite,
         rating = rating
     )

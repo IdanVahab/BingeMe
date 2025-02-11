@@ -70,9 +70,23 @@ class WatchlistRepository @Inject constructor(
     suspend fun removeSeries(series: SeriesEntity) = dao.deleteSeries(series)
 
     /**
-     * Retrieves all series from the watchlist.
+     * Retrieves all series from the watchlist as a Flow.
+     * This allows observing changes in real-time.
      *
-     * @return A list of SeriesEntity objects.
+     * @return A Flow emitting a list of SeriesEntity objects.
      */
-    suspend fun getSeries() = dao.getAllSeries()
+    fun getAllSeries(): Flow<List<SeriesEntity>> {
+        return dao.getAllSeries()
+    }
+
+    /**
+     * Checks if a specific series is in the watchlist.
+     *
+     * @param seriesId The ID of the series to check.
+     * @return True if the series exists in the watchlist, false otherwise.
+     */
+    suspend fun isSeriesInWatchlist(seriesId: Int): Boolean {
+        return dao.isSeriesInWatchlist(seriesId)
+    }
+
 }
