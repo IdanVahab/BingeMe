@@ -16,14 +16,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * ViewModel for the DetailsFragment, responsible for handling business logic
+ * ViewModel for the MovieDetailsFragment, responsible for handling business logic
  * and interacting with repositories to fetch movie details and manage favorites.
  *
  * @param moviesRepository Repository for managing movie-related operations.
  * @param repository Repository for managing watchlist-related operations.
  */
 @HiltViewModel
-class DetailsFragmentViewModel @Inject constructor(
+class MovieDetailsFragmentViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository,
     private val repository: WatchlistRepository
 ) : ViewModel() {

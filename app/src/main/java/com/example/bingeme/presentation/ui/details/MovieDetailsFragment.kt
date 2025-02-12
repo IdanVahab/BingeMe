@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.bingeme.R
 import com.example.bingeme.data.models.Movie
-import com.example.bingeme.databinding.FragmentDetailsBinding
+import com.example.bingeme.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -21,25 +21,25 @@ import kotlinx.coroutines.launch
  * add or remove the movie from their favorites list.
  */
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
+class MovieDetailsFragment : Fragment() {
 
-    private val viewModel: DetailsFragmentViewModel by viewModels()
+    private val viewModel: MovieDetailsFragmentViewModel by viewModels()
     private var movie: Movie? = null
-    private var _binding: FragmentDetailsBinding? = null
+    private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args: DetailsFragmentArgs by navArgs()
+        val args: MovieDetailsFragmentArgs by navArgs()
         val movieId = args.movieId
 
         if (movieId != -1) {
