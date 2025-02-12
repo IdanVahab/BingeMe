@@ -47,8 +47,8 @@ class SeriesFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popularSeries.collect { seriesList ->
                     binding.recyclerView.adapter = MediaItemAdapter(seriesList) { series ->
-//                        val action = SeriesFragmentDirections.actionSeriesFragmentToDetailsFragment(series.id)
-//                        findNavController().navigate(action)
+                        val action = SeriesFragmentDirections.actionSeriesFragmentToSeriesDetailsFragment(series.id)
+                        findNavController().navigate(action)
                     }
                 }
             }

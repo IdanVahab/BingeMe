@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popularMovies.collect { movies ->
                     binding.recyclerView.adapter = MediaItemAdapter(movies) { movie ->
-                        val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(movie.id)
+                        val action = MainFragmentDirections.actionMainFragmentToMovieDetailsFragment(movie.id)
                         findNavController().navigate(action)
                     }
                 }
