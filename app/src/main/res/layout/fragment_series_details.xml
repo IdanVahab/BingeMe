@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Series Poster -->
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/series_poster" />
+
+    <!-- Series Title -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Series Title" />
+
+    <!-- Series Release Date -->
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="Release Date: YYYY-MM-DD" />
+
+    <!-- Series Overview -->
+    <TextView
+        android:id="@+id/seriesOverview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="Series Overview" />
+
+    <!-- Series Overview -->
+    <TextView
+        android:id="@+id/movieOverview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="Series Overview" />
+
+    <!-- Series Number Of Episodes -->
+    <TextView
+        android:id="@+id/SeriesNumberOfEpisodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="Series Number Of Episodes" />
+
+    <!-- Series Number Of Seasons -->
+    <TextView
+        android:id="@+id/SeriesNumberOfSeasons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="Series Number Of Seasons" />
+
+    <!-- Error TextView -->
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:text="Error loading details" />
+
+    <!-- Favorite Button -->
+    <Button
+        android:id="@+id/favoriteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Add to Favorites" />
+</LinearLayout>
