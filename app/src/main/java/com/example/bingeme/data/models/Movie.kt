@@ -23,7 +23,7 @@ data class Movie(
     @SerializedName("poster_path")
     override val posterPath: String?,    // Path to poster image (nullable)
     @SerializedName("release_date")
-    override val releaseDate: String,    // Release date (nullable)
+    override val releaseDate: String?,    // Release date (nullable)
     override var isFavorite: Boolean,     // Flag for favorite status
     val rating: Double           // Average rating of the movie
 ) : BaseMediaItem()
