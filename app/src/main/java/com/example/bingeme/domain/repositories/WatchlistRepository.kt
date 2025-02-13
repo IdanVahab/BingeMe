@@ -1,5 +1,6 @@
 package com.example.bingeme.domain.repositories
 
+import android.util.Log
 import com.example.bingeme.data.local.dao.WatchlistDao
 import com.example.bingeme.data.local.entities.MovieEntity
 import com.example.bingeme.data.local.entities.SeriesEntity
@@ -52,7 +53,9 @@ class WatchlistRepository @Inject constructor(
      * @return True if the movie exists in the watchlist, false otherwise.
      */
     suspend fun isMovieInWatchlist(movieId: Int): Boolean {
-        return dao.isMovieInWatchlist(movieId)
+        val exists = dao.isMovieInWatchlist(movieId)
+        Log.d("WatchlistRepository", "Checking if movie ($movieId) is in watchlist: $exists")
+        return exists
     }
 
     /**
@@ -60,7 +63,10 @@ class WatchlistRepository @Inject constructor(
      *
      * @param series The series entity to add.
      */
-    suspend fun addSeries(series: SeriesEntity) = dao.insertSeries(series)
+    suspend fun addSeries(series: SeriesEntity) {
+        Log.d("WatchlistRepository", "Adding series to watchlist: ${series.id} ")
+        dao.insertSeries(series)
+    }
 
     /**
      * Removes a series from the watchlist.
@@ -76,8 +82,11 @@ class WatchlistRepository @Inject constructor(
      * @return A Flow emitting a list of SeriesEntity objects.
      */
     fun getAllSeries(): Flow<List<SeriesEntity>> {
-        return dao.getAllSeries()
+        return dao.getAllSeries().also {
+            Log.d("WatchlistRepository", "Fetching watchlist series from DB")
+        }
     }
+
 
     /**
      * Checks if a specific series is in the watchlist.
@@ -86,7 +95,9 @@ class WatchlistRepository @Inject constructor(
      * @return True if the series exists in the watchlist, false otherwise.
      */
     suspend fun isSeriesInWatchlist(seriesId: Int): Boolean {
-        return dao.isSeriesInWatchlist(seriesId)
+        val exists = dao.isSeriesInWatchlist(seriesId)
+        Log.d("WatchlistRepository", "Checking if series ($seriesId) is in watchlist: $exists")
+        return exists
     }
 
 }

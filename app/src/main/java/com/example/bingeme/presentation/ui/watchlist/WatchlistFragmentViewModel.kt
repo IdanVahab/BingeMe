@@ -3,6 +3,7 @@ package com.example.bingeme.presentation.ui.watchlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Movie
+import com.example.bingeme.data.models.Series
 import com.example.bingeme.domain.repositories.WatchlistRepository
 import com.example.bingeme.utils.toEntity
 import com.example.bingeme.utils.toModel
@@ -30,6 +31,10 @@ class WatchlistFragmentViewModel @Inject constructor(
         entities.map { it.toModel() }
     }
 
+    val watchlistSeries: Flow<List<Series>> = repository.getAllSeries().map { entities ->
+        entities.map { it.toModel() }
+    }
+
     /**
      * Removes a movie from the watchlist.
      *
@@ -38,6 +43,12 @@ class WatchlistFragmentViewModel @Inject constructor(
     fun removeMovieFromWatchlist(movie: Movie) {
         viewModelScope.launch {
             repository.removeMovie(movie.toEntity())
+        }
+    }
+
+    fun removeSeriesFromWatchlist(series: Series) {
+        viewModelScope.launch {
+            repository.removeSeries(series.toEntity())
         }
     }
 }
