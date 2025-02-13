@@ -1,5 +1,8 @@
 package com.example.bingeme.presentation.ui.details
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Movie
@@ -28,6 +31,19 @@ class MovieDetailsFragmentViewModel @Inject constructor(
     private val repository: WatchlistRepository
 ) : ViewModel() {
 
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+    fun checkIfFavorite(movieId: Int) {
+        viewModelScope.launch {
+            val isInFavorites = repository.isMovieInWatchlist(movieId)
+            if (_isFavorite.value != isInFavorites) { // ✅ עדכן רק אם יש שינוי אמיתי
+                Log.d("MovieDetailsViewModel", "Updating LiveData: isFavorite = $isInFavorites")
+                _isFavorite.postValue(isInFavorites)
+            }
+        }
+    }
+
     /**
      * Fetches details of a specific movie by its ID.
      *
@@ -55,12 +71,12 @@ class MovieDetailsFragmentViewModel @Inject constructor(
     fun toggleFavorite(movie: Movie) {
         viewModelScope.launch {
             val movieEntity = movie.toEntity()
-            if (repository.isMovieInWatchlist(movie.id)) {
+            if (_isFavorite.value == true) {
                 repository.removeMovie(movieEntity)
-                movie.isFavorite = false
+                _isFavorite.value = false
             } else {
                 repository.addMovie(movieEntity)
-                movie.isFavorite = true
+                _isFavorite.value = true
             }
         }
     }
