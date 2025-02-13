@@ -19,6 +19,9 @@
         <action
             android:id="@+id/actionMainFragmentToSeriesFragment"
             app:destination="@id/seriesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_seriesDetailsFragment"
+            app:destination="@id/seriesDetailsFragment" />
     </fragment>
 
     <fragment
