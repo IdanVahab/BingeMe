@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bingeme.R
 import com.example.bingeme.data.models.Movie
+import com.bumptech.glide.Glide
+import android.widget.ImageView
 
 /**
  * Adapter class for displaying and managing a watchlist in a RecyclerView.
@@ -43,10 +45,21 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
      */
     inner class WatchlistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val movieTitle: TextView = itemView.findViewById(R.id.title)
+        private val releaseDate: TextView = itemView.findViewById(R.id.date)
+        private val poster: ImageView = itemView.findViewById(R.id.poster) // הוספנו טעינת תמונה
         private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
 
         fun bind(movie: Movie) {
             movieTitle.text = movie.title
+            releaseDate.text = "Release Date: ${movie.releaseDate}"
+
+            // טעינת התמונה באמצעות Glide
+            Glide.with(itemView.context)
+                .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                .placeholder(R.drawable.placeholder_image) // תמונה זמנית אם לא נטען
+                .error(R.drawable.error_image) // תמונה אם יש שגיאה
+                .into(poster)
+
             deleteButton.setOnClickListener {
                 onDeleteClickListener?.invoke(movie)
             }

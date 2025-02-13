@@ -1,5 +1,7 @@
 package com.example.bingeme.presentation.ui.details
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Series
@@ -28,6 +30,19 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
     private val repository: WatchlistRepository
 ) : ViewModel() {
 
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+
+    fun checkIfFavorite(seriesId: Int) {
+        viewModelScope.launch {
+            val isInFavorites = repository.isSeriesInWatchlist(seriesId)
+
+            _isFavorite.postValue(isInFavorites)
+        }
+    }
+
     /**
      * Fetches details of a specific series by its ID.
      *
@@ -55,12 +70,12 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
     fun toggleFavorite(series: Series) {
         viewModelScope.launch {
             val seriesEntity = series.toEntity()
-            if (repository.isSeriesInWatchlist(series.id)) {
+            if (_isFavorite.value == true) {
                 repository.removeSeries(seriesEntity)
-                series.isFavorite = false
+                _isFavorite.value = false
             } else {
                 repository.addSeries(seriesEntity)
-                series.isFavorite = true
+                _isFavorite.value = true
             }
         }
     }

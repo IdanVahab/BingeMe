@@ -1,6 +1,7 @@
 package com.example.bingeme.presentation.ui.watchlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -8,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bingeme.R
 import com.example.bingeme.databinding.FragmentWatchlistBinding
+import com.example.bingeme.presentation.adapters.SeriesAdapter
 import com.example.bingeme.presentation.adapters.WatchlistAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,21 +28,48 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWatchlistBinding.bind(view)
 
-        // Set up the RecyclerView with the WatchlistAdapter
-        val adapter = WatchlistAdapter()
-        binding.watchlistRecyclerView.adapter = adapter
-        binding.watchlistRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        // 🔥 Adapter לסרטים
+        val moviesAdapter = WatchlistAdapter()
+        binding.moviesRecyclerView.adapter = moviesAdapter
+        binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Set the delete click listener
-        adapter.setOnDeleteClickListener { movie ->
-            viewModel.removeMovieFromWatchlist(movie)
+        // 🔥 Adapter לסדרות
+        val seriesAdapter = SeriesAdapter(emptyList()) { series ->
+            // אפשר להוסיף פעולה ללחיצה על סדרה כאן
         }
+        binding.seriesRecyclerView.adapter = seriesAdapter
+        binding.seriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Observe the watchlist and update the adapter
+        // 🔥 מאזינים לרשימת הסרטים
         lifecycleScope.launch {
             viewModel.watchlistMovies.collect { movies ->
-                adapter.submitList(movies)
+                Log.d("WatchlistFragment", "Fetched ${movies.size} movies from DB")
+                moviesAdapter.submitList(movies)
             }
         }
+
+        // 🔥 מאזינים לרשימת הסדרות
+        lifecycleScope.launch {
+            viewModel.watchlistSeries.collect { series ->
+                Log.d("WatchlistFragment", "Fetched ${series.size} series from DB")
+                seriesAdapter.updateSeries(series) // עדכון ה-Adapter לסדרות
+            }
+        }
+
+        binding.moviesButton.setOnClickListener { showMoviesList() }
+        binding.seriesButton.setOnClickListener { showSeriesList() }
     }
+    private fun showMoviesList() {
+        binding.moviesRecyclerView.visibility = View.VISIBLE
+        binding.seriesRecyclerView.visibility = View.GONE
+    }
+
+    /**
+     * 🔹 הצגת רשימת הסדרות והסתרת רשימת הסרטים
+     */
+    private fun showSeriesList() {
+        binding.seriesRecyclerView.visibility = View.VISIBLE
+        binding.moviesRecyclerView.visibility = View.GONE
+    }
+
 }

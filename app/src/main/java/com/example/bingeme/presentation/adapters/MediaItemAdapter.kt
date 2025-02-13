@@ -17,7 +17,7 @@ import com.example.bingeme.data.models.BaseMediaItem
  * @param onItemClick Callback function to handle clicks on a media item.
  */
 class MediaItemAdapter(
-    private val baseMediaItems: List<BaseMediaItem>,
+    private var items: List<BaseMediaItem>,
     private val onItemClick: (BaseMediaItem) -> Unit
 ) : RecyclerView.Adapter<MediaItemAdapter.MediaItemViewHolder>() {
 
@@ -36,7 +36,7 @@ class MediaItemAdapter(
     }
 
     override fun onBindViewHolder(holder: MediaItemViewHolder, position: Int) {
-        val mediaItem = baseMediaItems[position]
+        val mediaItem = items[position]
         holder.title.text = mediaItem.title
         Glide.with(holder.itemView.context)
             .load("https://image.tmdb.org/t/p/w500${mediaItem.posterPath}")
@@ -47,5 +47,10 @@ class MediaItemAdapter(
         holder.itemView.setOnClickListener { onItemClick(mediaItem) }
     }
 
-    override fun getItemCount(): Int = baseMediaItems.size
+    override fun getItemCount(): Int = items.size
+
+    fun updateData(newItems: List<BaseMediaItem>) {
+        items = newItems
+        notifyDataSetChanged()  // 🔥 עדכון התצוגה
+    }
 }

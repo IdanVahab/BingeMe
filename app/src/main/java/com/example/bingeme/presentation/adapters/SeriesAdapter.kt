@@ -17,7 +17,7 @@ import com.example.bingeme.data.models.Series
  * @param onSeriesClick Callback function to handle clicks on a series item.
  */
 class SeriesAdapter(
-    private val series: List<Series>,
+    private var series: List<Series>,
     private val onSeriesClick: (Series) -> Unit
 ) : RecyclerView.Adapter<SeriesAdapter.SeriesViewHolder>() {
 
@@ -50,4 +50,9 @@ class SeriesAdapter(
     }
 
     override fun getItemCount(): Int = series.size
+
+    fun updateSeries(newSeries: List<Series>) {
+        this.series = newSeries
+        notifyDataSetChanged()
+    }
 }

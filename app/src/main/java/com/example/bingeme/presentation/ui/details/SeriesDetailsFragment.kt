@@ -43,14 +43,19 @@ class SeriesDetailsFragment : Fragment() {
         val seriesId = args.seriesId
 
         if (seriesId != -1) {
+            viewModel.checkIfFavorite(seriesId)
             observeSeriesDetails(seriesId)
+            updateFavoriteButtonState(viewModel.isFavorite.value ?: false)
+        }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            updateFavoriteButtonState(isFavorite)
         }
 
         binding.favoriteButton.setOnClickListener {
             series?.let {
-                it.isFavorite = !it.isFavorite
                 viewModel.toggleFavorite(it)
-                updateFavoriteButtonState(it.isFavorite)
+                viewModel.checkIfFavorite(it.id)
             }
         }
     }
@@ -61,7 +66,6 @@ class SeriesDetailsFragment : Fragment() {
                 result.onSuccess { series ->
                     series?.let {
                         updateUI(it)
-                        updateFavoriteButtonState(it.isFavorite)
                     }
                 }.onFailure {
                     showError()

@@ -14,7 +14,7 @@ import com.example.bingeme.data.local.entities.SeriesEntity
  * @entities Specifies the list of entity classes that represent database tables.
  * @version Database schema version. Increment this number when schema changes.
  */
-@Database(entities = [MovieEntity::class, SeriesEntity::class], version = 2)
+@Database(entities = [MovieEntity::class, SeriesEntity::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
 
     /**
@@ -22,5 +22,6 @@ abstract class AppDatabase : RoomDatabase() {
      *
      * @return An instance of WatchlistDao.
      */
+
     abstract fun watchlistDao(): WatchlistDao
 }

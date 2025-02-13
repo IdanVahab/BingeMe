@@ -38,35 +38,65 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up the RecyclerView
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        // 🔥 Adapter לסרטים
+        val moviesAdapter = MediaItemAdapter(emptyList()) { movie ->
+            val action = MainFragmentDirections.actionMainFragmentToMovieDetailsFragment(movie.id)
+            findNavController().navigate(action)
+        }
+        binding.moviesRecyclerView.adapter = moviesAdapter
+        binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Observe the StateFlow for popular movies
-        viewLifecycleOwner.lifecycleScope.launch {
+        // 🔥 Adapter לסדרות
+        val seriesAdapter = MediaItemAdapter(emptyList()) { series ->
+            val action = MainFragmentDirections.actionMainFragmentToSeriesDetailsFragment(series.id)
+            findNavController().navigate(action)
+        }
+        binding.seriesRecyclerView.adapter = seriesAdapter
+        binding.seriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // 🔥 מאזינים לרשימת הסרטים
+        lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popularMovies.collect { movies ->
-                    binding.recyclerView.adapter = MediaItemAdapter(movies) { movie ->
-                        val action = MainFragmentDirections.actionMainFragmentToMovieDetailsFragment(movie.id)
-                        findNavController().navigate(action)
-                    }
+                    moviesAdapter.updateData(movies)
                 }
             }
         }
 
-        // Set up navigation to the watchlist
+        // 🔥 מאזינים לרשימת הסדרות
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.popularSeries.collect { series ->
+                    seriesAdapter.updateData(series)
+                }
+            }
+        }
+
+        // 🔹 ניהול הכפתורים
+        binding.moviesButton.setOnClickListener { showMoviesList() }
+        binding.seriesButton.setOnClickListener { showSeriesList() }
+
+        // 🔥 מעבר לרשימת הצפייה
         binding.watchlistButton.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToWatchlistFragment()
             findNavController().navigate(action)
         }
-        // Set up navigation to the series list
-        binding.seriesButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToSeriesFragment()
-            findNavController().navigate(action)
-        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    /**
+     * 🔹 הצגת רשימת הסרטים והסתרת רשימת הסדרות
+     */
+    private fun showMoviesList() {
+        binding.moviesRecyclerView.visibility = View.VISIBLE
+        binding.seriesRecyclerView.visibility = View.GONE
     }
+
+    /**
+     * 🔹 הצגת רשימת הסדרות והסתרת רשימת הסרטים
+     */
+    private fun showSeriesList() {
+        binding.seriesRecyclerView.visibility = View.VISIBLE
+        binding.moviesRecyclerView.visibility = View.GONE
+    }
+
 }

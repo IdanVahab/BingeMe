@@ -1,6 +1,7 @@
 package com.example.bingeme.presentation.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,14 +44,18 @@ class MovieDetailsFragment : Fragment() {
         val movieId = args.movieId
 
         if (movieId != -1) {
+            viewModel.checkIfFavorite(movieId) // בודק האם הסרט כבר במועדפים
             observeMovieDetails(movieId)
+        }
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            Log.d("MovieDetailsFragment", "Updating button state: isFavorite = $isFavorite")
+            updateFavoriteButtonState(isFavorite)
         }
 
         binding.favoriteButton.setOnClickListener {
             movie?.let {
-                it.isFavorite = !it.isFavorite
                 viewModel.toggleFavorite(it)
-                updateFavoriteButtonState(it.isFavorite)
+                viewModel.checkIfFavorite(it.id)
             }
         }
     }
@@ -61,7 +66,6 @@ class MovieDetailsFragment : Fragment() {
                 result.onSuccess { movie ->
                     movie?.let {
                         updateUI(it)
-                        updateFavoriteButtonState(it.isFavorite)
                     }
                 }.onFailure {
                     showError()
@@ -71,12 +75,24 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateFavoriteButtonState(isFavorite: Boolean) {
-        binding.favoriteButton.text = if (isFavorite) {
-            "Remove from Favorites"
-        } else {
-            "Add to Favorites"
+        // ✅ נוודא שהכפתור לא מקבל עדכון כפול
+        if (binding.favoriteButton.text == (if (isFavorite) "Remove from Favorites" else "Add to Favorites")) {
+            return // ❌ אל תעדכן אם הערך כבר נכון!
+        }
+
+        Log.d("MovieDetailsFragment", "Updating UI Correctly: isFavorite = $isFavorite")
+
+        requireActivity().runOnUiThread {
+            binding.favoriteButton.text = if (isFavorite) {
+                "Remove from Favorites"
+            } else {
+                "Add to Favorites"
+            }
         }
     }
+
+
+
 
     private fun showError() {
         binding.errorTextView.visibility = View.VISIBLE
@@ -94,7 +110,16 @@ class MovieDetailsFragment : Fragment() {
             .into(binding.poster)
         binding.title.text = movie.title
         binding.movieOverview.text = movie.overview
+        binding.date.text = "Release Date: ${movie.releaseDate}"
     }
+
+    override fun onResume() {
+        super.onResume()
+        movie?.let {
+            viewModel.checkIfFavorite(it.id) // ✅ טוען מחדש את הסטטוס של הסרט במועדפים
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
