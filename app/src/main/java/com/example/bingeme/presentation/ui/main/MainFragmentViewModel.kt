@@ -57,7 +57,7 @@ class MainFragmentViewModel @Inject constructor(
     private fun fetchPopularSeries() {
         viewModelScope.launch {
             try {
-                val response = seriesRepository.getPopularSeries(Constants.API_KEY)
+                val response = seriesRepository.getPopularSeries()
                 if (response.isSuccessful) {
                     _popularSeries.value = response.body()?.results ?: emptyList()
                 } else {

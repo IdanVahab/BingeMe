@@ -11,14 +11,19 @@ import com.example.bingeme.data.models.Series
 fun Series.toEntity(): SeriesEntity {
     return SeriesEntity(
         id = id,
-        name = title ?: "",
+        title = title ?: "",
         overview = overview ?: "",
         posterPath = posterPath ?: "",
         releaseDate = releaseDate ?: "",
-        isFavorite = isFavorite,
         popularity = popularity,
-        number_of_episodes = number_of_episodes,
-        number_of_seasons = number_of_seasons,
+        voteAverage = voteAverage,
+        adult = adult,
+        originalLanguage = originalLanguage,
+        isFavorite = isFavorite,
+        isWatched = isWatched,
+        numberOfEpisodes = numberOfEpisodes,
+        numberOfSeasons = numberOfSeasons,
+        trailerUrl = trailerUrl
     )
 }
 
@@ -30,13 +35,19 @@ fun Series.toEntity(): SeriesEntity {
 fun SeriesEntity.toModel(): Series {
     return Series(
         id = id,
-        title = name,
+        title = title,
         overview = overview,
         posterPath = posterPath,
         releaseDate = releaseDate,
-        isFavorite = isFavorite,
         popularity = popularity,
-        number_of_episodes = number_of_episodes,
-        number_of_seasons = number_of_seasons,
+        voteAverage = voteAverage,
+        adult = adult,
+        originalLanguage = originalLanguage,
+        isFavorite = isFavorite,
+        isWatched = isWatched,
+        numberOfEpisodes = numberOfEpisodes,
+        numberOfSeasons = numberOfSeasons,
+        trailerUrl = trailerUrl,
+        genres = emptyList() // Since genres are not stored in SeriesEntity, returning an empty list
     )
 }

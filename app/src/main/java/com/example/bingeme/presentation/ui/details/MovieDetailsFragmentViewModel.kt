@@ -52,7 +52,7 @@ class MovieDetailsFragmentViewModel @Inject constructor(
      */
     fun getMovieDetails(movieId: Int): Flow<Result<Movie?>> = flow {
         try {
-            val response = moviesRepository.getMovieDetails(Constants.API_KEY, movieId)
+            val response = moviesRepository.getMovieDetails(Constants.API_KEY,Constants.TOKEN, movieId)
             if (response.isSuccessful) {
                 emit(Result.success(response.body()))
             } else {

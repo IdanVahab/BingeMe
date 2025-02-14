@@ -7,6 +7,7 @@ import com.example.bingeme.data.remote.TmdbApiService
 import com.example.bingeme.utils.toModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
 import javax.inject.Inject
 
 /**
@@ -18,27 +19,42 @@ import javax.inject.Inject
  * @param watchlistDao Injected DAO for accessing watchlist-related database operations.
  */
 class MoviesRepository @Inject constructor(
-    private val apiService: TmdbApiService,
+    apiService: TmdbApiService,
     private val watchlistDao: WatchlistDao
-) {
+) : BaseRepository(apiService) {  // Extend BaseRepository
 
     /**
      * Fetches a list of popular movies from the TMDB API.
      *
-     * @param apiKey The API key for authentication.
+     * @param token The Bearer Token for authentication.
      * @return A response containing the popular movies.
      */
-    suspend fun getPopularMovies(apiKey: String) = apiService.getPopularMovies(apiKey)
+    suspend fun getPopularMovies(token: String) = apiService.getPopularMovies(token)
 
     /**
      * Fetches details of a specific movie from the TMDB API.
      *
-     * @param apiKey The API key for authentication.
+     * @param apiKey The Bearer Token for authentication.
      * @param movieId The ID of the movie to fetch details for.
      * @return A response containing the movie details.
      */
-    suspend fun getMovieDetails(apiKey: String, movieId: Int) =
-        apiService.getMovieDetails(movieId, apiKey)
+    suspend fun getMovieDetails(apiKey: String, token: String, movieId: Int): Response<Movie> {
+        val response: Response<Movie> = apiService.getMovieDetails(movieId, apiKey)
+
+        if (response.isSuccessful) {
+            response.body()?.let { movie ->
+                // Fetch the trailer URL
+                val trailerUrl = getTrailerUrl(token, movieId, isMovie = true)
+
+                // Update the movie object with the trailer URL
+                val updatedMovie = movie.copy(trailerUrl = trailerUrl)
+
+                // Return the updated Response<Movie>
+                return Response.success(updatedMovie)
+            }
+        }
+        return response // Return the original response if unsuccessful
+    }
 
     /**
      * Adds a movie to the watchlist if it is not already present.

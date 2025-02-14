@@ -17,10 +17,16 @@ fun Movie.toEntity(): MovieEntity {
         id = id,
         title = title ?: "",
         overview = overview ?: "",
-        poster_path = posterPath ?: "",
-        release_date = releaseDate ?: "",
+        posterPath = posterPath ?: "",
+        releaseDate = releaseDate ?: "",
+        popularity = popularity,
+        voteAverage = voteAverage,
+        adult = adult,
+        originalLanguage = originalLanguage,
         isFavorite = isFavorite,
-        rating = rating
+        isWatched = isWatched,
+        runtime = runtime,
+        trailerUrl = trailerUrl
     )
 }
 
@@ -34,9 +40,16 @@ fun MovieEntity.toModel(): Movie {
         id = id,
         title = title,
         overview = overview,
-        posterPath = poster_path,
-        releaseDate = release_date,
+        posterPath = posterPath,
+        releaseDate = releaseDate,
+        popularity = popularity,
+        voteAverage = voteAverage,
+        adult = adult,
+        originalLanguage = originalLanguage,
         isFavorite = isFavorite,
-        rating = rating
+        isWatched = isWatched,
+        runtime = runtime,
+        trailerUrl = trailerUrl,
+        genres = emptyList()
     )
 }

@@ -51,7 +51,7 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
      */
     fun getSeriesDetails(seriesId: Int): Flow<Result<Series?>> = flow {
         try {
-            val response = seriesRepository.getSeriesDetails(Constants.API_KEY, seriesId)
+            val response = seriesRepository.getSeriesDetails(Constants.API_KEY,Constants.TOKEN,seriesId)
             if (response.isSuccessful) {
                 emit(Result.success(response.body()))
             } else {
