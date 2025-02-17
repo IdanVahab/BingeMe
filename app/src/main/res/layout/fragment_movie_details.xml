@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Movie Poster -->
-    <ImageView
-        android:id="@+id/poster"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/movie_poster" />
 
     <!-- Movie Title -->
     <TextView
@@ -20,18 +14,221 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="Movie Title"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="Movie Title" />
+        android:textStyle="bold" />
 
-    <!-- Movie Release Date -->
-    <TextView
-        android:id="@+id/date"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="16sp"
-        android:text="Release Date: YYYY-MM-DD" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Year -->
+        <TextView
+            android:id="@+id/releaseYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023"
+            android:textSize="16sp" />
+
+        <!-- Bullet Separator -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" • "
+            android:textSize="16sp" />
+
+        <!-- Runtime -->
+        <TextView
+            android:id="@+id/runtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1h 36m"
+            android:textSize="16sp" />
+
+        <!-- Bullet Separator -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" • "
+            android:textSize="16sp" />
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/adultIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/adult_content"
+            android:src="@drawable/adult_icon" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+    <!-- Blurred Background Image -->
+    <ImageView
+        android:id="@+id/backgroundPoster"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:alpha="0.5"
+        android:contentDescription="@string/movie_poster"
+        android:background="@color/black" />
+    <!-- Movie Poster -->
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:contentDescription="@string/movie_poster"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:weightSum="2">
+
+        <!-- Rating Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/ratingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- Icon + Rating -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/vote_average_icon" />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="4dp"
+                    android:text="9.0/10" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Popularity Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/popularityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/popularity"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- Icon + Popularity Score -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/popularity_icon" />
+
+                <TextView
+                    android:id="@+id/popularity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="104"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Language Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/languageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/darker_gray"/>
+
+            <!-- Icon + Language -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/language_icon" />
+
+                <TextView
+                    android:id="@+id/language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_marginStart="4dp"
+                    android:text="EN" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
 
     <!-- Movie Overview -->
     <TextView
@@ -52,12 +249,55 @@
         android:textColor="@android:color/holo_red_dark"
         android:visibility="gone"
         android:text="Error loading details" />
-
+    <!-- Favorite & Watched Buttons Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:weightSum="2">
     <!-- Favorite Button -->
     <Button
         android:id="@+id/favoriteButton"
-        android:layout_width="match_parent"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Add to Favorites" />
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button"
+        android:drawableEnd="@drawable/not_favorite_icon"
+        android:drawableTint="@color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Save"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:backgroundTint="@android:color/white" />
+    <!-- Watched Button -->
+    <Button
+        android:id="@+id/watchedButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button"
+        android:drawableEnd="@drawable/not_watch_icon"
+        android:drawableTint="@color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Watched"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:backgroundTint="@android:color/white" />
+
+    </LinearLayout>
+    <!-- YouTube WebView -->
+    <WebView
+        android:id="@+id/youtubeWebView"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>

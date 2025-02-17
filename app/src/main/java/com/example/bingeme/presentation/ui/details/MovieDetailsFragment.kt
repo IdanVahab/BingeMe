@@ -52,6 +52,8 @@ class MovieDetailsFragment : Fragment() {
             updateFavoriteButtonState(isFavorite)
         }
 
+
+
         binding.favoriteButton.setOnClickListener {
             movie?.let {
                 viewModel.toggleFavorite(it)
@@ -74,25 +76,22 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateFavoriteButtonState(isFavorite: Boolean) {
-        // ✅ נוודא שהכפתור לא מקבל עדכון כפול
-        if (binding.favoriteButton.text == (if (isFavorite) "Remove from Favorites" else "Add to Favorites")) {
-            return // ❌ אל תעדכן אם הערך כבר נכון!
-        }
-
-        Log.d("MovieDetailsFragment", "Updating UI Correctly: isFavorite = $isFavorite")
-
-        requireActivity().runOnUiThread {
-            binding.favoriteButton.text = if (isFavorite) {
-                "Remove from Favorites"
-            } else {
-                "Add to Favorites"
-            }
-        }
-    }
-
-
-
+//    private fun updateFavoriteButtonState(isFavorite: Boolean) {
+//        // ✅ נוודא שהכפתור לא מקבל עדכון כפול
+//        if (binding.favoriteButton.text == (if (isFavorite) "Remove from Favorites" else "Add to Favorites")) {
+//            return // ❌ אל תעדכן אם הערך כבר נכון!
+//        }
+//
+//        Log.d("MovieDetailsFragment", "Updating UI Correctly: isFavorite = $isFavorite")
+//
+//        requireActivity().runOnUiThread {
+//            binding.favoriteButton.text = if (isFavorite) {
+//                "Remove from Favorites"
+//            } else {
+//                "Add to Favorites"
+//            }
+//        }
+//    }
 
     private fun showError() {
         binding.errorTextView.visibility = View.VISIBLE
@@ -103,14 +102,89 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateUI(movie: Movie) {
         this.movie = movie
+
+        // Load the main poster image
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
             .placeholder(R.drawable.placeholder_image)
             .error(R.drawable.error_image)
             .into(binding.poster)
+
+        // Load the blurred background image
+        Glide.with(this)
+            .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.error_image)
+            .into(binding.backgroundPoster)
+
+        // Update movie runtime, handling null values and proper formatting
+        val runtimeText = when {
+            movie.runtime == null -> getString(R.string.runtime_not_available)
+            movie.runtime < 60 -> "${movie.runtime} min"
+            else -> {
+                val hours = movie.runtime / 60
+                val minutes = movie.runtime % 60
+                "${hours}h ${minutes}m"
+            }
+        }
+        binding.runtime.text = runtimeText
+
+        // Handle adult content indicator, considering null cases
+        when (movie.adult) {
+            false -> {
+                binding.adultIcon.setImageResource(R.drawable.not_adult_icon)
+                binding.adultIcon.contentDescription = getString(R.string.family_friendly)}
+            null -> {
+                binding.adultIcon.setImageResource(R.drawable.question_mark)
+                binding.adultIcon.contentDescription = getString(R.string.unknown_age_restriction)            }
+            true ->{
+                binding.adultIcon.setImageResource(R.drawable.adult_icon)
+                binding.adultIcon.contentDescription = getString(R.string.adult_content)
+            }
+        }
+
+        // Handle favorite button state update, changing text and icon dynamically
+        updateFavoriteButtonState(movie.isFavorite)
+
+        // Handle watch button state update, changing text and icon dynamically
+        updateWatchedButtonState(movie.isWatched)
+
+        // Update movie details
         binding.title.text = movie.title
         binding.movieOverview.text = movie.overview
-        binding.date.text = "Release Date: ${movie.releaseDate}"
+        binding.releaseYear.text = movie.releaseDate
+        binding.rating.text = movie.voteAverage?.let { String.format("%.1f/10", it) } ?: "N/A"
+        binding.popularity.text = movie.popularity?.toInt()?.toString() ?: "N/A"
+        binding.language.text = movie.originalLanguage?.uppercase() ?: "N/A"
+
+    }
+
+    private fun updateFavoriteButtonState(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.favoriteButton.text = "Saved"
+            binding.favoriteButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0, 0, R.drawable.favorite_icon, 0 // Change icon to indicate saved state
+            )
+        } else {
+            binding.favoriteButton.text = "Save"
+            binding.favoriteButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0, 0, R.drawable.not_favorite_icon, 0 // Default "not saved" icon
+            )
+        }
+    }
+
+    private fun updateWatchedButtonState(isWatched: Boolean) {
+        if (isWatched) {
+            binding.watchedButton.text = "Watched"
+            binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0, 0, R.drawable.watch_icon, 0 // Change icon to indicate saved state
+            )
+        } else {
+            binding.watchedButton.text = "Not Watched"
+            binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0, 0, R.drawable.not_watch_icon, 0 // Default "not saved" icon
+            )
+        }
     }
 
     override fun onResume() {
@@ -119,7 +193,6 @@ class MovieDetailsFragment : Fragment() {
             viewModel.checkIfFavorite(it.id) // ✅ טוען מחדש את הסטטוס של הסרט במועדפים
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

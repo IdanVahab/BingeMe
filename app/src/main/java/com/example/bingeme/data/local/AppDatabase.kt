@@ -2,6 +2,7 @@ package com.example.bingeme.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.bingeme.data.local.dao.WatchlistDao
 import com.example.bingeme.data.local.entities.MovieEntity
 import com.example.bingeme.data.local.entities.SeriesEntity
@@ -15,6 +16,7 @@ import com.example.bingeme.data.local.entities.SeriesEntity
  * @version Database schema version. Increment this number when schema changes.
  */
 @Database(entities = [MovieEntity::class, SeriesEntity::class], version = 3)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     /**

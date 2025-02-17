@@ -2,6 +2,7 @@ package com.example.bingeme.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.bingeme.data.models.Genre
 
 /**
  * Represents a movie entity stored in the local Room database.
@@ -35,5 +36,7 @@ data class MovieEntity(
     val isFavorite: Boolean = false,    // Flag to mark the movie as favorite
     val isWatched: Boolean = false,     // Indicates if the movie has been watched
     val trailerUrl: String?,            // URL to the movie's trailer
-    val runtime: Int?                    // Runtime of the movie in minutes (nullable)
-)
+    val runtime: Int?,                    // Runtime of the movie in minutes (nullable)
+    val genres: List<Genre>
+
+    )

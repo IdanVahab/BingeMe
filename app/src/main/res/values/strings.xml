@@ -2,5 +2,13 @@
     <string name="app_name">BingeMe</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="series_poster">Series Poster</string>
+    <string name="adult_content">Mature Audience Only</string>
+    <string name="ratingTitle">" RATING"</string>
+    <string name="rating">RATING</string>
+    <string name="language">LANGUAGE</string>
+    <string name="popularity">POPULARITY</string>
+    <string name="runtime_not_available">Runtime not available</string>
+    <string name="family_friendly">Suitable for all audiences</string>
+    <string name="unknown_age_restriction">Age restriction unknown</string>
 
 </resources>

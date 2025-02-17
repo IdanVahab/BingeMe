@@ -26,7 +26,8 @@ fun Movie.toEntity(): MovieEntity {
         isFavorite = isFavorite,
         isWatched = isWatched,
         runtime = runtime,
-        trailerUrl = trailerUrl
+        trailerUrl = trailerUrl,
+        genres = genres
     )
 }
 

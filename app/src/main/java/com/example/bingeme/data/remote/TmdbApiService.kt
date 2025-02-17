@@ -77,6 +77,16 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US"
     ): Response<Series>
 
+    /**
+     * Fetches the trailer video(s) for a specific movie from the TMDB API.
+     *
+     * TMDB requires an Authorization token for this request.
+     *
+     * @param token The Bearer token for API authentication.
+     * @param movieId The ID of the movie to retrieve the trailer for.
+     * @param language The language for the trailer data (default is "en-US").
+     * @return A Response object containing a VideoResponse with the trailer videos.
+     */
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieTrailer(
         @Header("Authorization") token: String,
@@ -84,6 +94,16 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US"
     ): Response<VideoResponse>
 
+    /**
+     * Fetches the trailer video(s) for a specific TV series from the TMDB API.
+     *
+     * TMDB requires an Authorization token for this request.
+     *
+     * @param token The Bearer token for API authentication.
+     * @param tvId The ID of the TV series to retrieve the trailer for.
+     * @param language The language for the trailer data (default is "en-US").
+     * @return A Response object containing a VideoResponse with the trailer videos.
+     */
     @GET("tv/{tv_id}/videos")
     suspend fun getTVSeriesTrailer(
         @Header("Authorization") token: String,

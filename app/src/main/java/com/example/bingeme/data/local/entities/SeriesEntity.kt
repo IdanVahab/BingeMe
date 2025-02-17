@@ -2,6 +2,7 @@ package com.example.bingeme.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.bingeme.data.models.Genre
 
 /**
  * Represents a series entity stored in the local Room database.
@@ -21,6 +22,7 @@ import androidx.room.PrimaryKey
  * @param numberOfEpisodes The total number of episodes in the series.
  * @param numberOfSeasons The total number of seasons in the series.
  * @param trailerUrl The URL to the series' trailer.
+ * @param genres A list of genres associated with the movie.
  */
 @Entity(tableName = "series")
 data class SeriesEntity(
@@ -37,5 +39,7 @@ data class SeriesEntity(
     val isWatched: Boolean = false,      // Indicates if the series has been watched
     val numberOfEpisodes: Int,           // Total number of episodes in the series
     val numberOfSeasons: Int,            // Total number of seasons in the series
-    val trailerUrl: String?              // URL to the series' trailer
+    val trailerUrl: String?,             // URL to the series' trailer
+    val genres: List<Genre>              // List of genres associated with the movie
+
 )

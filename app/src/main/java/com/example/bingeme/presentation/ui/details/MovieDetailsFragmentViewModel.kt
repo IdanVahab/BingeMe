@@ -36,7 +36,7 @@ class MovieDetailsFragmentViewModel @Inject constructor(
 
     fun checkIfFavorite(movieId: Int) {
         viewModelScope.launch {
-            val isInFavorites = repository.isMovieInWatchlist(movieId)
+            val isInFavorites = repository.isMovieInFavoritelist(movieId)
             if (_isFavorite.value != isInFavorites) { // ✅ עדכן רק אם יש שינוי אמיתי
                 Log.d("MovieDetailsViewModel", "Updating LiveData: isFavorite = $isInFavorites")
                 _isFavorite.postValue(isInFavorites)
