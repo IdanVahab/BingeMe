@@ -20,32 +20,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- 🔹 כפתורים לבחירת תוכן -->
-    <LinearLayout
-        android:id="@+id/toggleButtonsContainer"
-        android:layout_width="wrap_content"
+    <!-- 🔹 שדה חיפוש -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:queryHint="חפש סרטים או סדרות"
+        android:iconifiedByDefault="false"
         app:layout_constraintTop_toBottomOf="@id/mainTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp" />
+
+    <!-- 🔹 כפתורים לבחירת תוכן -->
+    <LinearLayout
+        android:id="@+id/toggleButtonsContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp">
 
         <Button
             android:id="@+id/moviesButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Movies"
-            android:onClick="showMoviesList" />
+            android:layout_weight="1"
+            android:text="Movies" />
 
         <Button
             android:id="@+id/seriesButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Series"
-            android:onClick="showSeriesList"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="12dp"/>
     </LinearLayout>
 
     <!-- 🔹 כפתור מעבר לרשימת צפייה -->
@@ -59,28 +73,80 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 🔹 רשימת הסרטים -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/moviesRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/watchlistButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <!-- 🔹 רשימת הסדרות -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/seriesRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <!-- 🔹 ProgressBar לטעינת הנתונים -->
+    <ProgressBar
+        android:id="@+id/moviesProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/watchlistButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginTop="12dp"/>
+
+    <!-- 🔹 רשימת הסרטים -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/moviesProgressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/paginationContainer">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/moviesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/seriesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <!-- 🔹 ניווט בין עמודים -->
+    <LinearLayout
+        android:id="@+id/paginationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/moviesRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="12dp">
+        <Button
+            android:id="@+id/nextPageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_margin="8dp" />
+
+        <Button
+            android:id="@+id/prevPageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous"
+            android:layout_margin="8dp" />
+
+        <TextView
+            android:id="@+id/pageNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Page 1"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:padding="8dp" />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
