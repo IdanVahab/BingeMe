@@ -12,7 +12,7 @@ import javax.inject.Inject
  * @param apiService Injected TMDB API service for fetching movie and series data.
  */
 open class BaseRepository @Inject constructor(
-    protected val apiService: TmdbApiService
+    protected open val apiService: TmdbApiService
 ) {
 
     /**

@@ -111,4 +111,35 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US"
     ): Response<VideoResponse>
 
+
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("api_key") apiKey: String,
+        @Query("query") query: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Response<MovieResponse>
+
+    @GET("search/tv")
+    suspend fun searchSeries(
+        @Query("api_key") apiKey: String,
+        @Query("query") query: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Response<SeriesResponse>
+
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int
+    ): Response<MovieResponse>
+
+    @GET("tv/popular")
+    suspend fun getMostPopularSeries(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int
+    ): Response<SeriesResponse>
+
 }
