@@ -1,9 +1,14 @@
 package com.example.bingeme.domain.repositories
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.example.bingeme.data.local.dao.WatchlistDao
 import com.example.bingeme.data.local.entities.MovieEntity
 import com.example.bingeme.data.models.Movie
+import com.example.bingeme.data.models.MovieResponse
+import com.example.bingeme.data.paging.MoviesPagingSource
 import com.example.bingeme.data.remote.TmdbApiService
+import com.example.bingeme.utils.Constants
 import com.example.bingeme.utils.toModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,9 +24,11 @@ import javax.inject.Inject
  * @param watchlistDao Injected DAO for accessing watchlist-related database operations.
  */
 class MoviesRepository @Inject constructor(
-    apiService: TmdbApiService,
+    override val apiService: TmdbApiService, // ✅ `val` כבר מספק Getter, אין צורך בפונקציה נוספת
     private val watchlistDao: WatchlistDao
-) : BaseRepository(apiService) {  // Extend BaseRepository
+) : BaseRepository(apiService) {
+
+
 
     /**
      * Fetches a list of popular movies from the TMDB API.
@@ -29,7 +36,10 @@ class MoviesRepository @Inject constructor(
      * @param token The Bearer Token for authentication.
      * @return A response containing the popular movies.
      */
-    suspend fun getPopularMovies(token: String) = apiService.getPopularMovies(token)
+    suspend fun getPopularMovies(apiKey: String, page: Int): Response<MovieResponse> {
+        return apiService.getPopularMovies(apiKey, page = page)
+    }
+
 
     /**
      * Fetches details of a specific movie from the TMDB API.
@@ -87,4 +97,19 @@ class MoviesRepository @Inject constructor(
             entities.map { it.toModel() }
         }
     }
+
+    suspend fun searchMovies(query: String): Response<MovieResponse> {
+        return apiService.searchMovies(Constants.API_KEY, query)
+    }
+
+    suspend fun getTopRatedMovies(apiKey: String, page: Int = 1): Response<MovieResponse> {
+        return apiService.getTopRatedMovies(apiKey, language = "en-US", page = page) // ✅ הוספת `language`
+    }
+
+
+    // ✅ פונקציה להחזרת apiService
+    fun provideApiService(): TmdbApiService {
+        return apiService
+    }
+
 }
