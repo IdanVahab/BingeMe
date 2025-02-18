@@ -1,8 +1,12 @@
 package com.example.bingeme.domain.repositories
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.example.bingeme.data.local.dao.WatchlistDao
 import com.example.bingeme.data.local.entities.SeriesEntity
 import com.example.bingeme.data.models.Series
+import com.example.bingeme.data.models.SeriesResponse
+import com.example.bingeme.data.paging.SeriesPagingSource
 import com.example.bingeme.data.remote.TmdbApiService
 import com.example.bingeme.utils.Constants
 import com.example.bingeme.utils.toModel
@@ -30,7 +34,14 @@ class SeriesRepository @Inject constructor(
      * @param token The Bearer Token for authentication.
      * @return A response containing the popular series.
      */
-    suspend fun getPopularSeries() = apiService.getPopularTVSeries(Constants.API_KEY)
+
+    suspend fun getPopularSeries(page: Int): Response<SeriesResponse> {
+        return apiService.getPopularTVSeries(
+            apiKey = Constants.API_KEY,
+            language = "en-US", // ✅ חובה לציין את הפרמטר
+            page = page // ✅ מספקים את מספר העמוד
+        )
+    }
 
     /**
      * Fetches details of a specific series from the TMDB API.
@@ -88,4 +99,17 @@ class SeriesRepository @Inject constructor(
             entities.map { it.toModel() }
         }
     }
+
+    suspend fun searchSeries(query: String): Response<SeriesResponse> {
+        return apiService.searchSeries(Constants.API_KEY, query)
+    }
+
+    fun getMostPopularSeries(): Pager<Int, Series> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { SeriesPagingSource(apiService, Constants.API_KEY) }
+        )
+    }
+
+
 }
