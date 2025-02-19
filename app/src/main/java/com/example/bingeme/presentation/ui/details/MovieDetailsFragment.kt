@@ -5,6 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -157,6 +162,23 @@ class MovieDetailsFragment : Fragment() {
         binding.popularity.text = movie.popularity?.toInt()?.toString() ?: "N/A"
         binding.language.text = movie.originalLanguage?.uppercase() ?: "N/A"
 
+        // Handle movie trailer
+        if(movie.trailerUrl != null){
+            // Load and display the movie trailer in WebView
+            val webSettings: WebSettings = binding.youtubeWebView.settings
+            webSettings.javaScriptEnabled = true
+            webSettings.domStorageEnabled = true
+            webSettings.loadWithOverviewMode = true
+            webSettings.useWideViewPort = true
+            binding.youtubeWebView.webViewClient = object : WebViewClient()
+            {
+                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                    view?.loadUrl(request?.url.toString()) // Load all URLs inside WebView
+                    return true
+                }
+            }
+            binding.youtubeWebView.loadUrl(movie.trailerUrl)
+        }
     }
 
     private fun updateFavoriteButtonState(isFavorite: Boolean) {
