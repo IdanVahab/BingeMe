@@ -112,4 +112,23 @@ class MoviesRepository @Inject constructor(
         return apiService
     }
 
+    fun getWatchedMovies(): Flow<List<Movie>> {
+        return watchlistDao.getWatchedMovies().map { entities ->
+            entities.map { it.toModel() }
+        }
+    }
+
+    suspend fun isMovieWatched(movieId: Int): Boolean {
+        return watchlistDao.isMovieWatched(movieId)
+    }
+
+
+    suspend fun markMovieAsWatched(movieId: Int) {
+        watchlistDao.updateMovieWatchedStatus(movieId, true)
+    }
+
+    suspend fun unmarkMovieAsWatched(movieId: Int) {
+        watchlistDao.updateMovieWatchedStatus(movieId, false)
+    }
+
 }

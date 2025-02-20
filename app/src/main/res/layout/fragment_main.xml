@@ -63,6 +63,7 @@
     </LinearLayout>
 
     <!-- 🔹 כפתור מעבר לרשימת צפייה -->
+    <!-- 🔹 כפתורים לרשימת צפייה וסרטים שנצפו -->
     <Button
         android:id="@+id/watchlistButton"
         android:layout_width="wrap_content"
@@ -71,7 +72,20 @@
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/toggleButtonsContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/watchedButton"
+        android:layout_marginEnd="8dp" />
+
+    <Button
+        android:id="@+id/watchedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Watched Movies"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toggleButtonsContainer"
+        app:layout_constraintStart_toEndOf="@id/watchlistButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp" />
+
 
     <!-- 🔹 ProgressBar לטעינת הנתונים -->
     <ProgressBar

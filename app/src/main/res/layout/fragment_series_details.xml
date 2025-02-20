@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -42,14 +43,14 @@
         android:textSize="16sp"
         android:text="Series Overview" />
 
-    <!-- Series Overview -->
+    <!-- Movie Overview -->
     <TextView
         android:id="@+id/movieOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textSize="16sp"
-        android:text="Series Overview" />
+        android:text="Movie Overview" />
 
     <!-- Series Number Of Episodes -->
     <TextView
@@ -80,6 +81,23 @@
         android:visibility="gone"
         android:text="Error loading details" />
 
+    <!-- Watched Button -->
+    <Button
+        android:id="@+id/watchedButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_button"
+        android:drawableEnd="@drawable/not_watch_icon"
+        android:drawableTint="@color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Watched"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:backgroundTint="@android:color/white" />
+
     <!-- Favorite Button -->
     <Button
         android:id="@+id/favoriteButton"
@@ -87,4 +105,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Add to Favorites" />
+
 </LinearLayout>

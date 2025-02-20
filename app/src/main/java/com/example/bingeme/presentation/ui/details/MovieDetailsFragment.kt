@@ -57,6 +57,11 @@ class MovieDetailsFragment : Fragment() {
             updateFavoriteButtonState(isFavorite)
         }
 
+        binding.watchedButton.setOnClickListener {
+            movie?.let {
+                viewModel.toggleWatched(it.id)
+            }
+        }
 
 
         binding.favoriteButton.setOnClickListener {
