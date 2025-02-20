@@ -14,10 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.bingeme.R
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.databinding.FragmentMovieDetailsBinding
+import com.example.bingeme.presentation.ui.adapters.GenresAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -184,9 +186,12 @@ class MovieDetailsFragment : Fragment() {
             }
             binding.youtubeWebView.loadUrl(movie.trailerUrl)
 
-            // Display movie genres
-           val genresText = movie.genres?.joinToString(", ") { it.name } ?: "No genres available"
-            binding.genresTextView.text = genresText
+            // Set up RecyclerView for genres
+            val genresAdapter = movie.genres?.let { GenresAdapter(it) }
+            binding.genresRecyclerView.apply {
+                adapter = genresAdapter
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            }
 
         }
     }
