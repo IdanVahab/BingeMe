@@ -4,38 +4,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.bingeme.R
 import com.example.bingeme.data.models.Movie
-import com.bumptech.glide.Glide
-import android.widget.ImageView
 
-/**
- * Adapter class for displaying and managing a watchlist in a RecyclerView.
- * Uses ListAdapter to handle updates and optimize list changes.
- */
-class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder>(DIFF_CALLBACK) {
+class WatchedAdapter : ListAdapter<Movie, WatchedAdapter.WatchedViewHolder>(DIFF_CALLBACK) {
 
     private var onDeleteClickListener: ((Movie) -> Unit)? = null
+    private var onItemClickListener: ((Movie) -> Unit)? = null
 
-    /**
-     * Sets the callback function for handling delete button clicks.
-     *
-     * @param listener The callback function to invoke when delete is clicked.
-     */
     fun setOnDeleteClickListener(listener: (Movie) -> Unit) {
         onDeleteClickListener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchlistViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.media_item, parent, false)
-        return WatchlistViewHolder(view)
+    fun setOnItemClickListener(listener: (Movie) -> Unit) {
+        onItemClickListener = listener
     }
 
-    override fun onBindViewHolder(holder: WatchlistViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatchedViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.media_item, parent, false)
+        return WatchedViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: WatchedViewHolder, position: Int) {
         val movie = getItem(position)
         holder.bind(movie)
 
@@ -44,34 +40,26 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
         }
     }
 
-    /**
-     * ViewHolder for watchlist items in the RecyclerView.
-     */
-    inner class WatchlistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class WatchedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val movieTitle: TextView = itemView.findViewById(R.id.title)
         private val releaseDate: TextView = itemView.findViewById(R.id.date)
-        private val poster: ImageView = itemView.findViewById(R.id.poster) // הוספנו טעינת תמונה
+        private val poster: ImageView = itemView.findViewById(R.id.poster)
         private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
 
         fun bind(movie: Movie) {
             movieTitle.text = movie.title
             releaseDate.text = "Release Date: ${movie.releaseDate}"
 
-            // טעינת התמונה באמצעות Glide
             Glide.with(itemView.context)
                 .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-                .placeholder(R.drawable.placeholder_image) // תמונה זמנית אם לא נטען
-                .error(R.drawable.error_image) // תמונה אם יש שגיאה
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.error_image)
                 .into(poster)
 
             deleteButton.setOnClickListener {
                 onDeleteClickListener?.invoke(movie)
             }
         }
-    }
-    private var onItemClickListener: ((Movie) -> Unit)? = null
-    fun setOnItemClickListener(listener: (Movie) -> Unit) {
-        onItemClickListener = listener
     }
 
     companion object {

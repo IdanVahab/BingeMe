@@ -17,25 +17,14 @@
             android:id="@+id/action_mainFragment_to_watchlistFragment"
             app:destination="@id/watchlistFragment" />
         <action
-            android:id="@+id/actionMainFragmentToSeriesFragment"
-            app:destination="@id/seriesFragment" />
+            android:id="@+id/action_mainFragment_to_watchedFragment"
+            app:destination="@id/watchedFragment" />
+
         <action
             android:id="@+id/action_mainFragment_to_seriesDetailsFragment"
             app:destination="@id/seriesDetailsFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/seriesFragment"
-        android:name="com.example.bingeme.presentation.ui.series.SeriesFragment"
-        android:label="Series Fragment"
-        tools:layout="@layout/fragment_series">
-        <action
-            android:id="@+id/action_seriesFragment_to_seriesDetailsFragment"
-            app:destination="@id/seriesDetailsFragment" />
-        <action
-            android:id="@+id/action_seriesFragment_to_watchlistFragment"
-            app:destination="@id/watchlistFragment" />
-    </fragment>
 
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -61,6 +50,46 @@
         android:id="@+id/watchlistFragment"
         android:name="com.example.bingeme.presentation.ui.watchlist.WatchlistFragment"
         android:label="WatchlistFragment"
-        tools:layout="@layout/fragment_watchlist" />
+        tools:layout="@layout/fragment_watchlist">
+
+        <action
+            android:id="@+id/action_watchlistFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment">
+            <argument
+                android:name="movieId"
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_watchlistFragment_to_seriesDetailsFragment"
+            app:destination="@id/seriesDetailsFragment">
+            <argument
+                android:name="seriesId"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/watchedFragment"
+        android:name="com.example.bingeme.presentation.ui.watched.WatchedFragment"
+        android:label="Watched"
+        tools:layout="@layout/fragment_watched">
+        <action
+            android:id="@+id/action_watchedFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment">
+            <argument
+                android:name="movieId"
+                app:argType="integer" />
+        </action>
+        <action
+            android:id="@+id/action_watchedFragment_to_seriesDetailsFragment"
+            app:destination="@id/seriesDetailsFragment">
+            <argument
+                android:name="seriesId"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+
 
 </navigation>
