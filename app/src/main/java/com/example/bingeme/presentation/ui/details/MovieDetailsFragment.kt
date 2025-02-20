@@ -53,6 +53,8 @@ class MovieDetailsFragment : Fragment() {
         if (movieId != -1) {
             viewModel.checkIfFavorite(movieId) // בודק האם הסרט כבר במועדפים
             observeMovieDetails(movieId)
+            updateFavoriteButtonState(viewModel.isFavorite.value ?: false)
+
         }
         viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
             Log.d("MovieDetailsFragment", "Updating button state: isFavorite = $isFavorite")
@@ -113,6 +115,8 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateUI(movie: Movie) {
+
+
         this.movie = movie
 
         // Load the main poster image
@@ -155,11 +159,11 @@ class MovieDetailsFragment : Fragment() {
             }
         }
 
-        // Handle favorite button state update, changing text and icon dynamically
-        updateFavoriteButtonState(movie.isFavorite)
-
-        // Handle watch button state update, changing text and icon dynamically
-        updateWatchedButtonState(movie.isWatched)
+//        // Handle favorite button state update, changing text and icon dynamically
+//        updateFavoriteButtonState(movie.isFavorite)
+//
+//        // Handle watch button state update, changing text and icon dynamically
+//        updateWatchedButtonState(movie.isWatched)
 
         // Update movie details
         binding.title.text = movie.title
@@ -168,6 +172,15 @@ class MovieDetailsFragment : Fragment() {
         binding.rating.text = movie.voteAverage?.let { String.format("%.1f/10", it) } ?: "N/A"
         binding.popularity.text = movie.popularity?.toInt()?.toString() ?: "N/A"
         binding.language.text = movie.originalLanguage?.uppercase() ?: "N/A"
+
+
+        //16:9
+        val webView = binding.youtubeWebView
+        val width = webView.width
+        val videoHeight = (width * 9) / 16
+        webView.layoutParams.height =videoHeight
+
+
 
         // Handle movie trailer
         if(movie.trailerUrl != null){
@@ -197,17 +210,21 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateFavoriteButtonState(isFavorite: Boolean) {
-        if (isFavorite) {
-            binding.favoriteButton.text = "Saved"
-            binding.favoriteButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0, 0, R.drawable.favorite_icon, 0 // Change icon to indicate saved state
-            )
+        binding.favoriteButton.text = if (isFavorite) {
+            "Remove from Favorites"
         } else {
-            binding.favoriteButton.text = "Save"
-            binding.favoriteButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0, 0, R.drawable.not_favorite_icon, 0 // Default "not saved" icon
-            )
+            "Add to Favorites"
         }
+
+        val icon = if (isFavorite) {
+            R.drawable.favorite_icon
+        } else {
+            R.drawable.not_favorite_icon
+        }
+
+        binding.favoriteButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            0, 0, icon, 0
+        )
     }
 
     private fun updateWatchedButtonState(isWatched: Boolean) {

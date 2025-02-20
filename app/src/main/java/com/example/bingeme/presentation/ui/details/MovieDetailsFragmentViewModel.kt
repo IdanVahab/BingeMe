@@ -1,6 +1,5 @@
 package com.example.bingeme.presentation.ui.details
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,11 +35,9 @@ class MovieDetailsFragmentViewModel @Inject constructor(
 
     fun checkIfFavorite(movieId: Int) {
         viewModelScope.launch {
-            val isInFavorites = repository.isMovieInFavoritelist(movieId)
-            if (_isFavorite.value != isInFavorites) { // ✅ עדכן רק אם יש שינוי אמיתי
-                Log.d("MovieDetailsViewModel", "Updating LiveData: isFavorite = $isInFavorites")
+            val isInFavorites = repository.isMovieInWatchlist(movieId)
                 _isFavorite.postValue(isInFavorites)
-            }
+
         }
     }
 
