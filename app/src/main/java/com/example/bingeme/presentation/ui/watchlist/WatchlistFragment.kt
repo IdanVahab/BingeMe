@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bingeme.R
 import com.example.bingeme.databinding.FragmentWatchlistBinding
@@ -30,15 +31,24 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
         // 🔥 Adapter לסרטים
         val moviesAdapter = WatchlistAdapter()
+
         binding.moviesRecyclerView.adapter = moviesAdapter
         binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        moviesAdapter.setOnItemClickListener { movie ->
+            val action = WatchlistFragmentDirections.actionWatchlistFragmentToMovieDetailsFragment(movie.id)
+            findNavController().navigate(action)
+        }
+
         // 🔥 Adapter לסדרות
         val seriesAdapter = SeriesAdapter(emptyList()) { series ->
-            // אפשר להוסיף פעולה ללחיצה על סדרה כאן
+            val action = WatchlistFragmentDirections.actionWatchlistFragmentToSeriesDetailsFragment(series.id)
+            findNavController().navigate(action)
         }
         binding.seriesRecyclerView.adapter = seriesAdapter
         binding.seriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+
 
         // 🔥 מאזינים לרשימת הסרטים
         lifecycleScope.launch {
