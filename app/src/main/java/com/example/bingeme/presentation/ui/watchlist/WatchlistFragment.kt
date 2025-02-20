@@ -69,7 +69,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
         binding.moviesButton.setOnClickListener { showMoviesList() }
         binding.seriesButton.setOnClickListener { showSeriesList() }
     }
-    private fun showMoviesList() {
+    fun showMoviesList() {
         binding.moviesRecyclerView.visibility = View.VISIBLE
         binding.seriesRecyclerView.visibility = View.GONE
     }
@@ -77,7 +77,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
     /**
      * 🔹 הצגת רשימת הסדרות והסתרת רשימת הסרטים
      */
-    private fun showSeriesList() {
+    fun showSeriesList() {
         binding.seriesRecyclerView.visibility = View.VISIBLE
         binding.moviesRecyclerView.visibility = View.GONE
     }
