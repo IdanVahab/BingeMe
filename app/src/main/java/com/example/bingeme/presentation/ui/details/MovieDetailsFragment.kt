@@ -108,6 +108,8 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateUI(movie: Movie) {
+
+
         this.movie = movie
 
         // Load the main poster image
@@ -163,6 +165,15 @@ class MovieDetailsFragment : Fragment() {
         binding.rating.text = movie.voteAverage?.let { String.format("%.1f/10", it) } ?: "N/A"
         binding.popularity.text = movie.popularity?.toInt()?.toString() ?: "N/A"
         binding.language.text = movie.originalLanguage?.uppercase() ?: "N/A"
+
+
+        //16:9
+        val webView = binding.youtubeWebView
+        val width = webView.width  // קבלת הרוחב האמיתי של ה-View
+        val videoHeight = (width * 9) / 16  // חישוב יחס 16:9
+        webView.layoutParams.height =videoHeight
+
+
 
         // Handle movie trailer
         if(movie.trailerUrl != null){
