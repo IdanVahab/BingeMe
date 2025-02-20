@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bingeme.R
 import com.example.bingeme.databinding.FragmentMainBinding
 import com.example.bingeme.presentation.adapters.MediaItemAdapter
 import com.example.bingeme.presentation.adapters.SeriesAdapter
@@ -57,6 +58,11 @@ class MainFragment : Fragment() {
         }
         binding.seriesRecyclerView.adapter = seriesAdapter
         binding.seriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.watchedButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_watchedFragment)
+        }
+
     }
 
     private fun setupSearchView() {
