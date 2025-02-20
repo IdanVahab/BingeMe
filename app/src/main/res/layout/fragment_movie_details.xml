@@ -302,3 +302,75 @@
 
     </LinearLayout>
 </ScrollView>
+
+    <!-- Error TextView -->
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:text="Error loading details" />
+    <!-- Favorite & Watched Buttons Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:weightSum="2">
+    <!-- Favorite Button -->
+    <Button
+        android:id="@+id/favoriteButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button"
+        android:drawableEnd="@drawable/not_favorite_icon"
+        android:drawableTint="@color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Save"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:backgroundTint="@android:color/white" />
+    <!-- Watched Button -->
+    <Button
+        android:id="@+id/watchedButton"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_button"
+        android:drawableEnd="@drawable/not_watch_icon"
+        android:drawableTint="@color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="Watched"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:backgroundTint="@android:color/white" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/genresTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:text="Genres" />
+
+
+    <!-- YouTube WebView -->
+    <WebView
+        android:id="@+id/youtubeWebView"
+        android:layout_width="match_parent"
+        android:layout_height="250sp"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>

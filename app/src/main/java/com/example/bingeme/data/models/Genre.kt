@@ -8,6 +8,7 @@ package com.example.bingeme.data.models
  * Currently, this class is empty, but it can be utilized for API responses or database storage.
  */
 class
-Genre {
-    // Add properties and methods as needed to represent and manipulate genre data
-}
+Genre (
+    val id: Int,
+    val name: String
+   )

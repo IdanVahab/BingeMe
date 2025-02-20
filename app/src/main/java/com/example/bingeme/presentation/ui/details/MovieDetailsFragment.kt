@@ -183,6 +183,11 @@ class MovieDetailsFragment : Fragment() {
                 }
             }
             binding.youtubeWebView.loadUrl(movie.trailerUrl)
+
+            // Display movie genres
+           val genresText = movie.genres?.joinToString(", ") { it.name } ?: "No genres available"
+            binding.genresTextView.text = genresText
+
         }
     }
 
