@@ -38,7 +38,6 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
     fun checkIfFavorite(seriesId: Int) {
         viewModelScope.launch {
             val isInFavorites = repository.isSeriesInWatchlist(seriesId)
-
             _isFavorite.postValue(isInFavorites)
         }
     }

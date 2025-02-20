@@ -51,7 +51,7 @@ class WatchlistRepository @Inject constructor(
      * @param movieId The ID of the movie to check.
      * @return True if the movie exists in the watchlist, false otherwise.
      */
-    suspend fun isMovieInFavoritelist(movieId: Int): Boolean {
+    suspend fun isMovieInWatchlist(movieId: Int): Boolean {
         val exists = dao.isMovieInWatchlist(movieId)
         Log.d("WatchlistRepository", "Checking if movie ($movieId) is in watchlist: $exists")
         return exists
