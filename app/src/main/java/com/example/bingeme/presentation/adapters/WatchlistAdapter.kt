@@ -38,6 +38,10 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
     override fun onBindViewHolder(holder: WatchlistViewHolder, position: Int) {
         val movie = getItem(position)
         holder.bind(movie)
+
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(movie)
+        }
     }
 
     /**
@@ -64,6 +68,10 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
                 onDeleteClickListener?.invoke(movie)
             }
         }
+    }
+    private var onItemClickListener: ((Movie) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Movie) -> Unit) {
+        onItemClickListener = listener
     }
 
     companion object {
