@@ -52,6 +52,13 @@ class SeriesDetailsFragment : Fragment() {
             updateFavoriteButtonState(isFavorite)
         }
 
+        binding.watchedButton.setOnClickListener {
+            series?.let {
+                viewModel.toggleWatched(it.id)
+            }
+        }
+
+
         binding.favoriteButton.setOnClickListener {
             series?.let {
                 viewModel.toggleFavorite(it)
