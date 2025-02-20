@@ -82,4 +82,22 @@ interface WatchlistDao {
      */
     @Query("SELECT EXISTS(SELECT 1 FROM series WHERE id = :seriesId)")
     suspend fun isSeriesInWatchlist(seriesId: Int): Boolean
+
+    @Query("SELECT * FROM movies WHERE isWatched = 1")
+    fun getWatchedMovies(): Flow<List<MovieEntity>>
+
+    @Query("UPDATE movies SET isWatched = :watched WHERE id = :movieId")
+    suspend fun updateMovieWatchedStatus(movieId: Int, watched: Boolean)
+
+    @Query("SELECT * FROM series WHERE isWatched = 1")
+    fun getWatchedSeries(): Flow<List<SeriesEntity>>
+
+    @Query("UPDATE series SET isWatched = :watched WHERE id = :seriesId")
+    suspend fun updateSeriesWatchedStatus(seriesId: Int, watched: Boolean)
+
+    @Query("SELECT isWatched FROM movies WHERE id = :movieId")
+    suspend fun isMovieWatched(movieId: Int): Boolean
+
+    @Query("SELECT isWatched FROM series WHERE id = :seriesId LIMIT 1")
+    suspend fun isSeriesWatched(seriesId: Int): Boolean
 }

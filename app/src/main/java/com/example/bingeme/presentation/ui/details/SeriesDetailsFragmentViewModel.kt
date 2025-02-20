@@ -79,4 +79,16 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    fun toggleWatched(seriesId: Int) {
+        viewModelScope.launch {
+            val isWatched = seriesRepository.isSeriesWatched(seriesId)
+            if (isWatched) {
+                seriesRepository.unmarkSeriesAsWatched(seriesId)
+            } else {
+                seriesRepository.markSeriesAsWatched(seriesId)
+            }
+        }
+    }
+
 }

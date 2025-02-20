@@ -112,4 +112,23 @@ class SeriesRepository @Inject constructor(
     }
 
 
+    fun getWatchedSeries(): Flow<List<Series>> {
+        return watchlistDao.getWatchedSeries().map { entities ->
+            entities.map { it.toModel() }
+        }
+    }
+
+
+    suspend fun isSeriesWatched(seriesId: Int): Boolean {
+        return watchlistDao.isSeriesWatched(seriesId)
+    }
+
+    suspend fun markSeriesAsWatched(seriesId: Int) {
+        watchlistDao.updateSeriesWatchedStatus(seriesId, true)
+    }
+
+    suspend fun unmarkSeriesAsWatched(seriesId: Int) {
+        watchlistDao.updateSeriesWatchedStatus(seriesId, false)
+    }
+
 }
