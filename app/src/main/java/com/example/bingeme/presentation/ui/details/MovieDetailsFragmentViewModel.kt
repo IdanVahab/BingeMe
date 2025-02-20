@@ -80,4 +80,16 @@ class MovieDetailsFragmentViewModel @Inject constructor(
             }
         }
     }
+    fun toggleWatched(movieId: Int) {
+        viewModelScope.launch {
+            val isWatched = moviesRepository.isMovieWatched(movieId)
+            if (isWatched) {
+                moviesRepository.unmarkMovieAsWatched(movieId)
+            } else {
+                moviesRepository.markMovieAsWatched(movieId)
+            }
+        }
+    }
+
+
 }
