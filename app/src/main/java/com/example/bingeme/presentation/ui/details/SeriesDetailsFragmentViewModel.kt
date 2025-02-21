@@ -22,25 +22,37 @@ import javax.inject.Inject
  * and interacting with repositories to fetch series details and manage favorites.
  *
  * @param seriesRepository Repository for managing series-related operations.
- * @param repository Repository for managing watchlist-related operations.
+ * @param watchlistRepository Repository for managing watchlist-related operations.
  */
 @HiltViewModel
 class SeriesDetailsFragmentViewModel @Inject constructor(
     private val seriesRepository: SeriesApiRepository,
-    private val repository: MediaDBRepository
-) : ViewModel() {
+    private val watchlistRepository: MediaDBRepository
 
+) : ViewModel() {
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-
     fun checkIfFavorite(seriesId: Int) {
         viewModelScope.launch {
-            val isInFavorites = repository.isSeriesInWatchlist(seriesId)
+            val isInFavorites = watchlistRepository.isSeriesInWatchlist(seriesId)
             _isFavorite.postValue(isInFavorites)
+
         }
     }
+
+    private val _isWatched = MutableLiveData<Boolean>()
+    val isWatched: LiveData<Boolean> get() = _isWatched
+
+    fun checkIfWatched(seriesId: Int) {
+        viewModelScope.launch {
+            val isWatched = watchlistRepository.isSeriesWatched(seriesId)
+            _isWatched.postValue(isWatched)
+
+        }
+    }
+
 
     /**
      * Fetches details of a specific series by its ID.
@@ -50,7 +62,7 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
      */
     fun getSeriesDetails(seriesId: Int): Flow<Result<Series?>> = flow {
         try {
-            val response = seriesRepository.getSeriesDetails(Constants.API_KEY,Constants.TOKEN,seriesId)
+            val response = seriesRepository.getSeriesDetails(Constants.API_KEY,Constants.TOKEN, seriesId)
             if (response.isSuccessful) {
                 emit(Result.success(response.body()))
             } else {
@@ -61,32 +73,10 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    /**
-     * Toggles the favorite status of a series in the watchlist.
-     *
-     * @param series The series to toggle.
-     */
-    fun toggleFavorite(series: Series) {
+    fun modifySeries(series: Series){
         viewModelScope.launch {
             val seriesEntity = series.toEntity()
-            if (_isFavorite.value == true) {
-                repository.removeSeries(seriesEntity)
-                _isFavorite.value = false
-            } else {
-                repository.addSeries(seriesEntity)
-                _isFavorite.value = true
-            }
-        }
-    }
-
-    fun toggleWatched(seriesId: Int) {
-        viewModelScope.launch {
-            val isWatched = repository.isSeriesWatched(seriesId)
-            if (isWatched) {
-                repository.unmarkSeriesAsWatched(seriesId)
-            } else {
-                repository.markSeriesAsWatched(seriesId)
-            }
+            watchlistRepository.addSeries(seriesEntity)
         }
     }
 

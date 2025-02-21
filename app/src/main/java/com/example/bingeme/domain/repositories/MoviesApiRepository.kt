@@ -15,7 +15,7 @@ import javax.inject.Inject
  * @param apiService Injected TMDB API service for fetching movie data.
  * @param watchlistDao Injected DAO for accessing watchlist-related database operations.
  */
-class MoviesRepository @Inject constructor(
+class MoviesApiRepository @Inject constructor(
     override val apiService: TmdbApiService
 ) : TmdbApiBaseRepository(apiService) {
 
@@ -40,10 +40,6 @@ class MoviesRepository @Inject constructor(
         }
         return response // Return the original response if unsuccessful
     }
-
-
-
-
 
     suspend fun searchMovies(query: String): Response<MovieResponse> {
         return apiService.searchMovies(Constants.API_KEY, query)

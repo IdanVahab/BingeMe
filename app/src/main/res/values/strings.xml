@@ -10,5 +10,7 @@
     <string name="runtime_not_available">Runtime not available</string>
     <string name="family_friendly">Suitable for all audiences</string>
     <string name="unknown_age_restriction">Age restriction unknown</string>
+    <string name="seasons_not_available">seasons not available</string>
+    <string name="episodes_not_available">episodes_not_available</string>
 
 </resources>

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Movie
-import com.example.bingeme.domain.repositories.MoviesRepository
+import com.example.bingeme.domain.repositories.MoviesApiRepository
 import com.example.bingeme.domain.repositories.MediaDBRepository
 import com.example.bingeme.utils.Constants
 import com.example.bingeme.utils.toEntity
@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MovieDetailsFragmentViewModel @Inject constructor(
-    private val moviesRepository: MoviesRepository,
+    private val moviesRepository: MoviesApiRepository,
     private val watchlistRepository: MediaDBRepository
 
     ) : ViewModel() {
@@ -79,34 +79,5 @@ class MovieDetailsFragmentViewModel @Inject constructor(
             watchlistRepository.addMovie(movieEntity)
         }
     }
-    /**
-     * Toggles the favorite status of a movie in the watchlist.
-     *
-     * @param movie The movie to toggle.
-     */
-//    fun toggleFavorite(movie: Movie) {
-//        viewModelScope.launch {
-//            movie.isFavorite = _isFavorite.value ?: false
-//            val movieEntity = movie.toEntity()
-//            if (_isFavorite.value == true) {
-//                watchlistRepository.removeMovie(movieEntity)
-//                _isFavorite.value = false
-//            } else {
-//                watchlistRepository.addMovie(movieEntity)
-//                _isFavorite.value = true
-//            }
-//        }
-//    }
-//    fun toggleWatched(movieId: Int) {
-//        viewModelScope.launch {
-//            val isWatched = watchlistRepository.isMovieWatched(movieId)
-//            if (isWatched) {
-//                watchlistRepository.unmarkMovieAsWatched(movieId)
-//                _isWatched.value = false
-//            } else {
-//                watchlistRepository.markMovieAsWatched(movieId)
-//                _isWatched.value = true
-//            }
-//        }
-//    }
+
 }
