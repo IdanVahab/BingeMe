@@ -75,6 +75,7 @@ class MovieDetailsFragment : Fragment() {
             movie?.let {
                 this.isWatched = !this.isWatched
                 it.isWatched = this.isWatched
+                it.isFavorite = this.isFavorite
                 viewModel.modifyMovie(it)
                 updateWatchedButtonState(it.isWatched)
             }
@@ -85,6 +86,7 @@ class MovieDetailsFragment : Fragment() {
             movie?.let {
                 this.isFavorite = !this.isFavorite
                 it.isFavorite = this.isFavorite
+                it.isWatched = this.isWatched
                 viewModel.modifyMovie(it)
                 updateFavoriteButtonState(it.isFavorite)
             }

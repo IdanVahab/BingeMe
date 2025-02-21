@@ -13,7 +13,7 @@ class MoviesPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val page = params.key ?: 1
-            val response = apiService.getTopRatedMovies(apiKey, page = page)
+            val response = apiService.getPopularMovies(apiKey, page = page)
             val movies = response.body()?.results ?: emptyList()
 
             LoadResult.Page(
