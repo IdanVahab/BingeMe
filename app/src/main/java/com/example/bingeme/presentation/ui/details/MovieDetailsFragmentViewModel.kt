@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.domain.repositories.MoviesRepository
-import com.example.bingeme.domain.repositories.WatchlistRepository
+import com.example.bingeme.domain.repositories.MediaDBRepository
 import com.example.bingeme.utils.Constants
 import com.example.bingeme.utils.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,24 +22,37 @@ import javax.inject.Inject
  * and interacting with repositories to fetch movie details and manage favorites.
  *
  * @param moviesRepository Repository for managing movie-related operations.
- * @param repository Repository for managing watchlist-related operations.
+ * @param watchlistRepository Repository for managing watchlist-related operations.
  */
 @HiltViewModel
 class MovieDetailsFragmentViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository,
-    private val repository: WatchlistRepository
-) : ViewModel() {
+    private val watchlistRepository: MediaDBRepository
+
+    ) : ViewModel() {
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
     fun checkIfFavorite(movieId: Int) {
         viewModelScope.launch {
-            val isInFavorites = repository.isMovieInWatchlist(movieId)
-                _isFavorite.postValue(isInFavorites)
+            val isInFavorites = watchlistRepository.isMovieInWatchlist(movieId)
+            _isFavorite.postValue(isInFavorites)
 
         }
     }
+
+    private val _isWatched = MutableLiveData<Boolean>()
+    val isWatched: LiveData<Boolean> get() = _isWatched
+
+    fun checkIfWatched(movieId: Int) {
+        viewModelScope.launch {
+            val isWatched = watchlistRepository.isMovieWatched(movieId)
+            _isWatched.postValue(isWatched)
+
+        }
+    }
+
 
     /**
      * Fetches details of a specific movie by its ID.
@@ -60,33 +73,40 @@ class MovieDetailsFragmentViewModel @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+    fun modifyMovie(movie: Movie){
+        viewModelScope.launch {
+            val movieEntity = movie.toEntity()
+            watchlistRepository.addMovie(movieEntity)
+        }
+    }
     /**
      * Toggles the favorite status of a movie in the watchlist.
      *
      * @param movie The movie to toggle.
      */
-    fun toggleFavorite(movie: Movie) {
-        viewModelScope.launch {
-            val movieEntity = movie.toEntity()
-            if (_isFavorite.value == true) {
-                repository.removeMovie(movieEntity)
-                _isFavorite.value = false
-            } else {
-                repository.addMovie(movieEntity)
-                _isFavorite.value = true
-            }
-        }
-    }
-    fun toggleWatched(movieId: Int) {
-        viewModelScope.launch {
-            val isWatched = moviesRepository.isMovieWatched(movieId)
-            if (isWatched) {
-                moviesRepository.unmarkMovieAsWatched(movieId)
-            } else {
-                moviesRepository.markMovieAsWatched(movieId)
-            }
-        }
-    }
-
-
+//    fun toggleFavorite(movie: Movie) {
+//        viewModelScope.launch {
+//            movie.isFavorite = _isFavorite.value ?: false
+//            val movieEntity = movie.toEntity()
+//            if (_isFavorite.value == true) {
+//                watchlistRepository.removeMovie(movieEntity)
+//                _isFavorite.value = false
+//            } else {
+//                watchlistRepository.addMovie(movieEntity)
+//                _isFavorite.value = true
+//            }
+//        }
+//    }
+//    fun toggleWatched(movieId: Int) {
+//        viewModelScope.launch {
+//            val isWatched = watchlistRepository.isMovieWatched(movieId)
+//            if (isWatched) {
+//                watchlistRepository.unmarkMovieAsWatched(movieId)
+//                _isWatched.value = false
+//            } else {
+//                watchlistRepository.markMovieAsWatched(movieId)
+//                _isWatched.value = true
+//            }
+//        }
+//    }
 }

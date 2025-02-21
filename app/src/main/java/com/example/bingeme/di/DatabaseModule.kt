@@ -3,7 +3,7 @@ package com.example.bingeme.di
 import android.content.Context
 import androidx.room.Room
 import com.example.bingeme.data.local.AppDatabase
-import com.example.bingeme.data.local.dao.WatchlistDao
+import com.example.bingeme.data.local.dao.MediaDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +45,7 @@ object DatabaseModule {
      * @return An instance of WatchlistDao.
      */
     @Provides
-    fun provideWatchlistDao(appDatabase: AppDatabase): WatchlistDao {
+    fun provideWatchlistDao(appDatabase: AppDatabase): MediaDao {
         return appDatabase.watchlistDao()
     }
 }

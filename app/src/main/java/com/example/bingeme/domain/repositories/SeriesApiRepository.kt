@@ -2,16 +2,11 @@ package com.example.bingeme.domain.repositories
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.bingeme.data.local.dao.WatchlistDao
-import com.example.bingeme.data.local.entities.SeriesEntity
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.data.models.SeriesResponse
 import com.example.bingeme.data.paging.SeriesPagingSource
 import com.example.bingeme.data.remote.TmdbApiService
 import com.example.bingeme.utils.Constants
-import com.example.bingeme.utils.toModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -21,12 +16,11 @@ import javax.inject.Inject
  * to inherit common functionality, including fetching trailers.
  *
  * @param apiService Injected TMDB API service for fetching series data.
- * @param watchlistDao Injected DAO for accessing watchlist-related database operations.
+ * @param mediaDao Injected DAO for accessing watchlist-related database operations.
  */
-class SeriesRepository @Inject constructor(
-    apiService: TmdbApiService,
-    private val watchlistDao: WatchlistDao
-) : BaseRepository(apiService) {  // Extend BaseRepository
+class SeriesApiRepository @Inject constructor(
+    apiService: TmdbApiService
+) : TmdbApiBaseRepository(apiService) {  // Extend BaseRepository
 
     /**
      * Fetches a list of popular series from the TMDB API.
@@ -68,37 +62,7 @@ class SeriesRepository @Inject constructor(
         return response // Return the original response if unsuccessful
     }
 
-    /**
-     * Adds a series to the watchlist if it is not already present.
-     *
-     * @param series The series entity to add to the watchlist.
-     */
-    suspend fun addSeriesToWatchlist(series: SeriesEntity) {
-        if (!watchlistDao.isSeriesInWatchlist(series.id)) {
-            watchlistDao.insertSeries(series)
-        }
-    }
 
-    /**
-     * Removes a series from the watchlist.
-     *
-     * @param series The series entity to remove from the watchlist.
-     */
-    suspend fun removeSeriesFromWatchlist(series: SeriesEntity) {
-        watchlistDao.deleteSeries(series)
-    }
-
-    /**
-     * Retrieves all series from the watchlist.
-     * The result is provided as a Flow for observing changes in real-time.
-     *
-     * @return A Flow emitting a list of series in the watchlist.
-     */
-    fun getAllSeriesFromWatchlist(): Flow<List<Series>> {
-        return watchlistDao.getAllSeries().map { entities ->
-            entities.map { it.toModel() }
-        }
-    }
 
     suspend fun searchSeries(query: String): Response<SeriesResponse> {
         return apiService.searchSeries(Constants.API_KEY, query)
@@ -112,23 +76,6 @@ class SeriesRepository @Inject constructor(
     }
 
 
-    fun getWatchedSeries(): Flow<List<Series>> {
-        return watchlistDao.getWatchedSeries().map { entities ->
-            entities.map { it.toModel() }
-        }
-    }
 
-
-    suspend fun isSeriesWatched(seriesId: Int): Boolean {
-        return watchlistDao.isSeriesWatched(seriesId)
-    }
-
-    suspend fun markSeriesAsWatched(seriesId: Int) {
-        watchlistDao.updateSeriesWatchedStatus(seriesId, true)
-    }
-
-    suspend fun unmarkSeriesAsWatched(seriesId: Int) {
-        watchlistDao.updateSeriesWatchedStatus(seriesId, false)
-    }
 
 }

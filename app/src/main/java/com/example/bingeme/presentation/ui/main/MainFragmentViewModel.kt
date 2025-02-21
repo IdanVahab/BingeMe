@@ -10,7 +10,7 @@ import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.data.paging.MoviesPagingSource
 import com.example.bingeme.domain.repositories.MoviesRepository
-import com.example.bingeme.domain.repositories.SeriesRepository
+import com.example.bingeme.domain.repositories.SeriesApiRepository
 import com.example.bingeme.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository,
-    private val seriesRepository: SeriesRepository
+    private val seriesRepository: SeriesApiRepository
 ) : ViewModel() {
 
     // ✅ משתנה למעקב אחרי הרשימה הפעילה (סרטים / סדרות)
