@@ -35,6 +35,8 @@ class MovieDetailsFragment : Fragment() {
     private var movie: Movie? = null
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
+    private var isFavorite = false
+    private var isWatched = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,27 +53,40 @@ class MovieDetailsFragment : Fragment() {
         val movieId = args.movieId
 
         if (movieId != -1) {
-            viewModel.checkIfFavorite(movieId) // בודק האם הסרט כבר במועדפים
+            viewModel.checkIfFavorite(movieId)
+            viewModel.checkIfWatched(movieId)
             observeMovieDetails(movieId)
             updateFavoriteButtonState(viewModel.isFavorite.value ?: false)
 
         }
         viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
             Log.d("MovieDetailsFragment", "Updating button state: isFavorite = $isFavorite")
+            this.isFavorite = isFavorite
             updateFavoriteButtonState(isFavorite)
+        }
+
+        viewModel.isWatched.observe(viewLifecycleOwner) { isWatched ->
+            Log.d("MovieDetailsFragment", "Updating button state: isWatched = $isWatched")
+            this.isWatched = isWatched
+            updateWatchedButtonState(isWatched)
         }
 
         binding.watchedButton.setOnClickListener {
             movie?.let {
-                viewModel.toggleWatched(it.id)
+                this.isWatched = !this.isWatched
+                it.isWatched = this.isWatched
+                viewModel.modifyMovie(it)
+                updateWatchedButtonState(it.isWatched)
             }
         }
 
 
         binding.favoriteButton.setOnClickListener {
             movie?.let {
-                viewModel.toggleFavorite(it)
-                viewModel.checkIfFavorite(it.id)
+                this.isFavorite = !this.isFavorite
+                it.isFavorite = this.isFavorite
+                viewModel.modifyMovie(it)
+                updateFavoriteButtonState(it.isFavorite)
             }
         }
     }
@@ -90,22 +105,6 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-//    private fun updateFavoriteButtonState(isFavorite: Boolean) {
-//        // ✅ נוודא שהכפתור לא מקבל עדכון כפול
-//        if (binding.favoriteButton.text == (if (isFavorite) "Remove from Favorites" else "Add to Favorites")) {
-//            return // ❌ אל תעדכן אם הערך כבר נכון!
-//        }
-//
-//        Log.d("MovieDetailsFragment", "Updating UI Correctly: isFavorite = $isFavorite")
-//
-//        requireActivity().runOnUiThread {
-//            binding.favoriteButton.text = if (isFavorite) {
-//                "Remove from Favorites"
-//            } else {
-//                "Add to Favorites"
-//            }
-//        }
-//    }
 
     private fun showError() {
         binding.errorTextView.visibility = View.VISIBLE
@@ -115,8 +114,6 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateUI(movie: Movie) {
-
-
         this.movie = movie
 
         // Load the main poster image
@@ -158,12 +155,6 @@ class MovieDetailsFragment : Fragment() {
                 binding.adultIcon.contentDescription = getString(R.string.adult_content)
             }
         }
-
-//        // Handle favorite button state update, changing text and icon dynamically
-//        updateFavoriteButtonState(movie.isFavorite)
-//
-//        // Handle watch button state update, changing text and icon dynamically
-//        updateWatchedButtonState(movie.isWatched)
 
         // Update movie details
         binding.title.text = movie.title
@@ -228,23 +219,26 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateWatchedButtonState(isWatched: Boolean) {
-        if (isWatched) {
-            binding.watchedButton.text = "Watched"
-            binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0, 0, R.drawable.watch_icon, 0 // Change icon to indicate saved state
-            )
+        val text = if (isWatched) {
+            "Watched"
         } else {
-            binding.watchedButton.text = "Not Watched"
-            binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0, 0, R.drawable.not_watch_icon, 0 // Default "not saved" icon
-            )
+            "Not Watched"
         }
+
+        val icon = if (isWatched) {
+            R.drawable.watch_icon
+        } else {
+            R.drawable.not_watch_icon
+        }
+
+        binding.watchedButton.text = text
+        binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
     }
 
     override fun onResume() {
         super.onResume()
         movie?.let {
-            viewModel.checkIfFavorite(it.id) // ✅ טוען מחדש את הסטטוס של הסרט במועדפים
+            viewModel.checkIfFavorite(it.id)
         }
     }
 

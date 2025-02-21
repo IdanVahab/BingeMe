@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.Series
-import com.example.bingeme.domain.repositories.WatchlistRepository
+import com.example.bingeme.domain.repositories.MediaDBRepository
 import com.example.bingeme.utils.toEntity
 import com.example.bingeme.utils.toModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class WatchlistFragmentViewModel @Inject constructor(
-    private val repository: WatchlistRepository
+    private val repository: MediaDBRepository
 ) : ViewModel() {
 
     /**

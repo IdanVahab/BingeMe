@@ -3,7 +3,7 @@ package com.example.bingeme.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.bingeme.data.local.dao.WatchlistDao
+import com.example.bingeme.data.local.dao.MediaDao
 import com.example.bingeme.data.local.entities.MovieEntity
 import com.example.bingeme.data.local.entities.SeriesEntity
 
@@ -25,5 +25,5 @@ abstract class AppDatabase : RoomDatabase() {
      * @return An instance of WatchlistDao.
      */
 
-    abstract fun watchlistDao(): WatchlistDao
+    abstract fun watchlistDao(): MediaDao
 }

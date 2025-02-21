@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bingeme.data.models.Series
-import com.example.bingeme.domain.repositories.SeriesRepository
-import com.example.bingeme.domain.repositories.WatchlistRepository
+import com.example.bingeme.domain.repositories.SeriesApiRepository
+import com.example.bingeme.domain.repositories.MediaDBRepository
 import com.example.bingeme.utils.Constants
 import com.example.bingeme.utils.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +26,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class SeriesDetailsFragmentViewModel @Inject constructor(
-    private val seriesRepository: SeriesRepository,
-    private val repository: WatchlistRepository
+    private val seriesRepository: SeriesApiRepository,
+    private val repository: MediaDBRepository
 ) : ViewModel() {
 
 
@@ -81,11 +81,11 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
 
     fun toggleWatched(seriesId: Int) {
         viewModelScope.launch {
-            val isWatched = seriesRepository.isSeriesWatched(seriesId)
+            val isWatched = repository.isSeriesWatched(seriesId)
             if (isWatched) {
-                seriesRepository.unmarkSeriesAsWatched(seriesId)
+                repository.unmarkSeriesAsWatched(seriesId)
             } else {
-                seriesRepository.markSeriesAsWatched(seriesId)
+                repository.markSeriesAsWatched(seriesId)
             }
         }
     }
