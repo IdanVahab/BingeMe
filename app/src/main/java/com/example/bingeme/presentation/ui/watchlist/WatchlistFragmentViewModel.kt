@@ -27,11 +27,11 @@ class WatchlistFragmentViewModel @Inject constructor(
     /**
      * Flow emitting the list of movies in the watchlist.
      */
-    val watchlistMovies: Flow<List<Movie>> = repository.getAllMovies().map { entities ->
+    val watchlistMovies: Flow<List<Movie>> = repository.getAllFavoriteMovies().map { entities ->
         entities.map { it.toModel() }
     }
 
-    val watchlistSeries: Flow<List<Series>> = repository.getAllSeries().map { entities ->
+    val watchlistSeries: Flow<List<Series>> = repository.getAllFavoriteSeries().map { entities ->
         entities.map { it.toModel() }
     }
 

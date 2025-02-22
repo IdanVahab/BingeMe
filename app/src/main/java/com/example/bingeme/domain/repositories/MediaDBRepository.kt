@@ -30,11 +30,11 @@ class MediaDBRepository @Inject constructor(
     suspend fun removeSeries(series: SeriesEntity) = mediaDao.deleteSeries(series)
 
 
-    fun getAllMovies(): Flow<List<MovieEntity>> {
-        return mediaDao.getAllMovies()
+    fun getAllFavoriteMovies(): Flow<List<MovieEntity>> {
+        return mediaDao.getAllFavoriteMovies()
     }
-    fun getAllSeries(): Flow<List<SeriesEntity>> {
-        return mediaDao.getAllSeries().also {
+    fun getAllFavoriteSeries(): Flow<List<SeriesEntity>> {
+        return mediaDao.getAllFavoriteSeries().also {
             Log.d("WatchlistRepository", "Fetching watchlist series from DB")
         }
     }
@@ -77,19 +77,6 @@ class MediaDBRepository @Inject constructor(
     suspend fun removeSeriesFromWatchlist(series: SeriesEntity) {
         mediaDao.deleteSeries(series)
     }
-
-
-    fun getAllMoviesFromWatchlist(): Flow<List<Movie>> {
-        return mediaDao.getAllMovies().map { entities ->
-            entities.map { it.toModel() }
-        }
-    }
-    fun getAllSeriesFromWatchlist(): Flow<List<Series>> {
-        return mediaDao.getAllSeries().map { entities ->
-            entities.map { it.toModel() }
-        }
-    }
-
 
     fun getWatchedMovies(): Flow<List<Movie>> {
         return mediaDao.getWatchedMovies().map { entities ->
