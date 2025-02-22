@@ -22,12 +22,12 @@ import javax.inject.Inject
  * and interacting with repositories to fetch series details and manage favorites.
  *
  * @param seriesRepository Repository for managing series-related operations.
- * @param watchlistRepository Repository for managing watchlist-related operations.
+ * @param mediaDBRepository Repository for managing watchlist-related operations.
  */
 @HiltViewModel
 class SeriesDetailsFragmentViewModel @Inject constructor(
     private val seriesRepository: SeriesApiRepository,
-    private val watchlistRepository: MediaDBRepository
+    private val mediaDBRepository: MediaDBRepository
 
 ) : ViewModel() {
 
@@ -36,7 +36,7 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
 
     fun checkIfFavorite(seriesId: Int) {
         viewModelScope.launch {
-            val isInFavorites = watchlistRepository.isSeriesInWatchlist(seriesId)
+            val isInFavorites = mediaDBRepository.isSeriesInWatchlist(seriesId)
             _isFavorite.postValue(isInFavorites)
 
         }
@@ -47,7 +47,7 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
 
     fun checkIfWatched(seriesId: Int) {
         viewModelScope.launch {
-            val isWatched = watchlistRepository.isSeriesWatched(seriesId)
+            val isWatched = mediaDBRepository.isSeriesWatched(seriesId)
             _isWatched.postValue(isWatched)
 
         }
@@ -76,7 +76,7 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
     fun modifySeries(series: Series){
         viewModelScope.launch {
             val seriesEntity = series.toEntity()
-            watchlistRepository.addSeries(seriesEntity)
+            mediaDBRepository.addSeries(seriesEntity)
         }
     }
 

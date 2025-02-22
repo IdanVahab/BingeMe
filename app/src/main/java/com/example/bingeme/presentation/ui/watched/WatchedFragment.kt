@@ -127,47 +127,6 @@ class WatchedFragment : Fragment(R.layout.fragment_watched) {
             showSeriesList()
         }
     }
-
-
-//    private fun setupPagingButtons() {
-//        binding.moviesButton.setOnClickListener {
-//            viewModel.setCurrentListType(MainFragmentViewModel.ListType.MOVIES)
-//            viewModel.fetchTopRatedMovies()
-//            showMoviesList()
-//        }
-//
-//        binding.seriesButton.setOnClickListener {
-//            viewModel.setCurrentListType(MainFragmentViewModel.ListType.SERIES)
-//            viewModel.fetchTopRatedSeries()
-//            showSeriesList()
-//        }
-//    }
-
-//        val seriesAdapter = SeriesAdapter(emptyList()) { series ->
-//            val action = WatchedFragmentDirections.actionWatchedFragmentToSeriesDetailsFragment(series.id)
-//            findNavController().navigate(action)
-//        }
-//        binding.seriesRecyclerView.adapter = seriesAdapter
-//        binding.seriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-//
-//        lifecycleScope.launch {
-//            viewModel.watchedMovies.collect { movies ->
-//                Log.d("WatchedFragment", "Fetched ${movies.size} watched movies")
-//                moviesAdapter.submitList(movies)
-//            }
-//        }
-//
-//        lifecycleScope.launch {
-//            viewModel.watchedSeries.collect { series ->
-//                Log.d("WatchedFragment", "Fetched ${series.size} watched series")
-//                seriesAdapter.updateSeries(series)
-//            }
-//        }
-//
-//        binding.moviesButton.setOnClickListener { showMoviesList() }
-//        binding.seriesButton.setOnClickListener { showSeriesList() }
-//    }
-
     private fun showMoviesList() {
         binding.moviesRecyclerView.visibility = View.VISIBLE
         binding.seriesRecyclerView.visibility = View.GONE

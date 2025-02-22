@@ -1,4 +1,4 @@
-package com.example.bingeme.presentation.ui.watched
+package com.example.bingeme.presentation.ui.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WatchedFragmentViewModel @Inject constructor(
+class FavoriteFragmentViewModel @Inject constructor(
     private val mediaDBRepository: MediaDBRepository
 ) : ViewModel() {
 
-    val watchedMovies: Flow<List<Movie>> = mediaDBRepository.getWatchedMovies()
+    val favoriteMovies: Flow<List<Movie>> = mediaDBRepository.getFavoriteMovies()
 
-    val watchedSeries: Flow<List<Series>> = mediaDBRepository.getWatchedSeries()
+    val favoriteSeries: Flow<List<Series>> = mediaDBRepository.getFavoriteSeries()
 
 
     private val _currentListType = MutableStateFlow(ListType.MOVIES)
@@ -48,10 +48,7 @@ class WatchedFragmentViewModel @Inject constructor(
         _currentListType.value = type
     }
 
-
-
-
-    fun getWatchedMovies(){
+    fun getFavoriteMovies(){
 
     }
 }

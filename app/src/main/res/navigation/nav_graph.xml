@@ -14,8 +14,8 @@
             android:id="@+id/action_mainFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_watchlistFragment"
-            app:destination="@id/watchlistFragment" />
+            android:id="@+id/action_mainFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
         <action
             android:id="@+id/action_mainFragment_to_watchedFragment"
             app:destination="@id/watchedFragment" />
@@ -47,20 +47,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/watchlistFragment"
-        android:name="com.example.bingeme.presentation.ui.watchlist.WatchlistFragment"
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.bingeme.presentation.ui.favorite.FavoriteFragment"
         android:label="WatchlistFragment"
-        tools:layout="@layout/fragment_watchlist">
+        tools:layout="@layout/fragment_favorite">
 
         <action
-            android:id="@+id/action_watchlistFragment_to_movieDetailsFragment"
+            android:id="@+id/action_favoriteFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment">
             <argument
                 android:name="movieId"
                 app:argType="integer" />
         </action>
         <action
-            android:id="@+id/action_watchlistFragment_to_seriesDetailsFragment"
+            android:id="@+id/action_favoriteFragment_to_seriesDetailsFragment"
             app:destination="@id/seriesDetailsFragment">
             <argument
                 android:name="seriesId"
