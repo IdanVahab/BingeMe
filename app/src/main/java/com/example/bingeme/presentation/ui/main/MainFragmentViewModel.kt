@@ -1,5 +1,7 @@
 package com.example.bingeme.presentation.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,9 +11,11 @@ import androidx.paging.cachedIn
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.data.paging.MoviesPagingSource
+import com.example.bingeme.domain.repositories.MediaDBRepository
 import com.example.bingeme.domain.repositories.MoviesApiRepository
 import com.example.bingeme.domain.repositories.SeriesApiRepository
 import com.example.bingeme.utils.Constants
+import com.example.bingeme.utils.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,8 +24,48 @@ import javax.inject.Inject
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
     private val moviesRepository: MoviesApiRepository,
-    private val seriesRepository: SeriesApiRepository
+    private val seriesRepository: SeriesApiRepository,
+    private val mediaDBRepository: MediaDBRepository
+
+
 ) : ViewModel() {
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+    fun checkIfFavorite(movieId: Int) {
+        viewModelScope.launch {
+            val isInFavorites = mediaDBRepository.isMovieInWatchlist(movieId)
+            _isFavorite.postValue(isInFavorites)
+
+        }
+    }
+
+    private val _isWatched = MutableLiveData<Boolean>()
+    val isWatched: LiveData<Boolean> get() = _isWatched
+
+    fun checkIfWatched(movieId: Int) {
+        viewModelScope.launch {
+            val isWatched = mediaDBRepository.isMovieWatched(movieId)
+            _isWatched.postValue(isWatched)
+
+        }
+    }
+
+    fun modifyMovie(movie: Movie){
+        viewModelScope.launch {
+            val movieEntity = movie.toEntity()
+            mediaDBRepository.addMovie(movieEntity)
+        }
+    }
+
+    fun modifySeries(series: Series){
+        viewModelScope.launch {
+            val seriesEntity = series.toEntity()
+            mediaDBRepository.addSeries(seriesEntity)
+        }
+    }
+
 
     // ✅ משתנה למעקב אחרי הרשימה הפעילה (סרטים / סדרות)
     enum class ListType { MOVIES, SERIES }
@@ -56,8 +100,8 @@ class MainFragmentViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     init {
-        fetchTopRatedMovies()
-        fetchTopRatedSeries()
+        getPopularMovies()
+        getPopularSeries()
     }
 
     // ✅ עדכון סוג הרשימה הפעילה
@@ -65,12 +109,12 @@ class MainFragmentViewModel @Inject constructor(
         _currentListType.value = type
     }
 
-    fun fetchTopRatedMovies(page: Int = 1) {
+    fun getPopularMovies(page: Int = 1) {
         if (isSearching) return // ❌ לא נאפשר עימוד בזמן חיפוש
 
         viewModelScope.launch {
             try {
-                val response = moviesRepository.getTopRatedMovies(Constants.API_KEY, page)
+                val response = moviesRepository.getPopularMovies(Constants.API_KEY, page)
                 if (response.isSuccessful) {
                     val movieResponse = response.body()
                     val moviesList = movieResponse?.results ?: emptyList()
@@ -85,7 +129,7 @@ class MainFragmentViewModel @Inject constructor(
         }
     }
 
-    fun fetchTopRatedSeries(page: Int = 1) {
+    fun getPopularSeries(page: Int = 1) {
         if (isSearching) return
 
         viewModelScope.launch {
@@ -128,8 +172,8 @@ class MainFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             if (query.isEmpty()) {
                 isSearching = false
-                fetchTopRatedMovies(1) // ✅ חזרה לעימוד רגיל
-                fetchTopRatedSeries(1)
+                getPopularMovies(1) // ✅ חזרה לעימוד רגיל
+                getPopularSeries(1)
                 return@launch
             }
 
@@ -172,28 +216,29 @@ class MainFragmentViewModel @Inject constructor(
     // ✅ ניווט בין דפי הסרטים
     fun loadNextMoviePage() {
         if (!isSearching && _currentMoviesPageFlow.value < totalMoviePages) {
-            fetchTopRatedMovies(_currentMoviesPageFlow.value + 1)
+            getPopularMovies(_currentMoviesPageFlow.value + 1)
         }
     }
 
     fun loadPreviousMoviePage() {
         if (!isSearching && _currentMoviesPageFlow.value > 1) {
-            fetchTopRatedMovies(_currentMoviesPageFlow.value - 1)
+            getPopularMovies(_currentMoviesPageFlow.value - 1)
         }
     }
 
     // ✅ ניווט בין דפי הסדרות
     fun loadNextSeriesPage() {
         if (!isSearching && _currentSeriesPageFlow.value < totalSeriesPages) {
-            fetchTopRatedSeries(_currentSeriesPageFlow.value + 1)
+            getPopularSeries(_currentSeriesPageFlow.value + 1)
         }
     }
 
     fun loadPreviousSeriesPage() {
         if (!isSearching && _currentSeriesPageFlow.value > 1) {
-            fetchTopRatedSeries(_currentSeriesPageFlow.value - 1)
+            getPopularSeries(_currentSeriesPageFlow.value - 1)
         }
     }
+
 
 
 }

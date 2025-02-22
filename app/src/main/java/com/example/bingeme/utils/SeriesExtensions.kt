@@ -23,8 +23,8 @@ fun Series.toEntity(): SeriesEntity {
         isWatched = isWatched,
         numberOfEpisodes = numberOfEpisodes,
         numberOfSeasons = numberOfSeasons,
-        trailerUrl = trailerUrl,
-        genres = genres
+        trailerUrl = trailerUrl ?: "",
+        genres = genres ?: emptyList()
     )
 }
 

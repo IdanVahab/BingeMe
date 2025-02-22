@@ -46,4 +46,15 @@ interface MediaDao {
     suspend fun updateMovieWatchedStatus(movieId: Int, watched: Boolean)
     @Query("UPDATE series SET isWatched = :watched WHERE id = :seriesId")
     suspend fun updateSeriesWatchedStatus(seriesId: Int, watched: Boolean)
+
+    @Query("SELECT id FROM series WHERE isFavorite = 1")
+    suspend fun getFavoriteSeriesIds(): List<Int>
+    @Query("SELECT id FROM movies WHERE isFavorite = 1")
+    suspend fun getFavoriteMoviesIds(): List<Int>
+
+
+    @Query("SELECT id FROM series WHERE isWatched = 1")
+    suspend fun getWatchedSeriesIds(): List<Int>
+    @Query("SELECT id FROM movies WHERE isWatched = 1")
+    suspend fun getWatchedMoviesIds(): List<Int>
 }

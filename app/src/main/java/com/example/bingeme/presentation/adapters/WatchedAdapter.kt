@@ -15,11 +15,12 @@ import com.example.bingeme.data.models.Movie
 
 class WatchedAdapter : ListAdapter<Movie, WatchedAdapter.WatchedViewHolder>(DIFF_CALLBACK) {
 
-    private var onDeleteClickListener: ((Movie) -> Unit)? = null
+    private var onFavoriteClickListener: ((Movie) -> Unit)? = null
+    private var onWatchedClickListener: ((Movie) -> Unit)? = null
     private var onItemClickListener: ((Movie) -> Unit)? = null
 
     fun setOnDeleteClickListener(listener: (Movie) -> Unit) {
-        onDeleteClickListener = listener
+        onFavoriteClickListener = listener
     }
 
     fun setOnItemClickListener(listener: (Movie) -> Unit) {
@@ -44,7 +45,8 @@ class WatchedAdapter : ListAdapter<Movie, WatchedAdapter.WatchedViewHolder>(DIFF
         private val movieTitle: TextView = itemView.findViewById(R.id.title)
         private val releaseDate: TextView = itemView.findViewById(R.id.date)
         private val poster: ImageView = itemView.findViewById(R.id.poster)
-        private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        private val favoriteButton: Button = itemView.findViewById(R.id.favoriteButton)
+
 
         fun bind(movie: Movie) {
             movieTitle.text = movie.title
@@ -56,8 +58,8 @@ class WatchedAdapter : ListAdapter<Movie, WatchedAdapter.WatchedViewHolder>(DIFF
                 .error(R.drawable.error_image)
                 .into(poster)
 
-            deleteButton.setOnClickListener {
-                onDeleteClickListener?.invoke(movie)
+            favoriteButton.setOnClickListener {
+                onFavoriteClickListener?.invoke(movie)
             }
         }
     }
