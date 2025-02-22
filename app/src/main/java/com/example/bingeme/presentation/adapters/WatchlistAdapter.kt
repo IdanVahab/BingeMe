@@ -51,7 +51,7 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
         private val movieTitle: TextView = itemView.findViewById(R.id.title)
         private val releaseDate: TextView = itemView.findViewById(R.id.date)
         private val poster: ImageView = itemView.findViewById(R.id.poster) // הוספנו טעינת תמונה
-        private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        private val favoriteButton: Button = itemView.findViewById(R.id.favoriteButton)
 
         fun bind(movie: Movie) {
             movieTitle.text = movie.title
@@ -64,7 +64,7 @@ class WatchlistAdapter : ListAdapter<Movie, WatchlistAdapter.WatchlistViewHolder
                 .error(R.drawable.error_image) // תמונה אם יש שגיאה
                 .into(poster)
 
-            deleteButton.setOnClickListener {
+            favoriteButton.setOnClickListener {
                 onDeleteClickListener?.invoke(movie)
             }
         }

@@ -30,7 +30,7 @@ abstract class BaseMediaItem{
     abstract val originalLanguage: String
     abstract val genres: List<Genre>
     abstract val trailerUrl: String?
-    abstract val isFavorite: Boolean
-    abstract val isWatched: Boolean
+    abstract var isFavorite: Boolean
+    abstract var isWatched: Boolean
 
 }

@@ -2,6 +2,7 @@ package com.example.bingeme.domain.repositories
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.example.bingeme.data.local.dao.MediaDao
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.data.models.SeriesResponse
 import com.example.bingeme.data.paging.SeriesPagingSource
@@ -19,7 +20,8 @@ import javax.inject.Inject
  * @param mediaDao Injected DAO for accessing watchlist-related database operations.
  */
 class SeriesApiRepository @Inject constructor(
-    apiService: TmdbApiService
+    apiService: TmdbApiService,
+    private val mediaDao: MediaDao
 ) : TmdbApiBaseRepository(apiService) {  // Extend BaseRepository
 
     /**
@@ -30,12 +32,32 @@ class SeriesApiRepository @Inject constructor(
      */
 
     suspend fun getPopularSeries(page: Int): Response<SeriesResponse> {
-        return apiService.getPopularTVSeries(
+        val response = apiService.getPopularTVSeries(
             apiKey = Constants.API_KEY,
-            language = "en-US", // ✅ חובה לציין את הפרמטר
-            page = page // ✅ מספקים את מספר העמוד
+            language = "en-US",
+            page = page
         )
+
+        if (!response.isSuccessful) {
+            return response
+        }
+
+        val seriesList = response.body()?.results ?: emptyList()
+
+        // ✅ Fetch all favorite and watched series IDs in a single query
+        val favoriteIds = mediaDao.getFavoriteSeriesIds()
+        val watchedIds = mediaDao.getWatchedSeriesIds()
+
+        seriesList.forEach { series ->
+            series.isFavorite = series.id in favoriteIds
+            series.isWatched = series.id in watchedIds
+        }
+
+        val updatedResponse = response.body()?.copy(results = seriesList)
+
+        return Response.success(updatedResponse)
     }
+
 
     /**
      * Fetches details of a specific series from the TMDB API.

@@ -25,9 +25,9 @@ fun Movie.toEntity(): MovieEntity {
         originalLanguage = originalLanguage,
         isFavorite = isFavorite,
         isWatched = isWatched,
-        runtime = runtime,
-        trailerUrl = trailerUrl,
-        genres = genres
+        runtime = runtime ?: 0 ,
+        trailerUrl = trailerUrl ?: "",
+        genres = genres ?: emptyList()
     )
 }
 

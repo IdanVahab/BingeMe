@@ -22,12 +22,12 @@ import javax.inject.Inject
  * and interacting with repositories to fetch movie details and manage favorites.
  *
  * @param moviesRepository Repository for managing movie-related operations.
- * @param watchlistRepository Repository for managing watchlist-related operations.
+ * @param mediaDBRepository Repository for managing watchlist-related operations.
  */
 @HiltViewModel
 class MovieDetailsFragmentViewModel @Inject constructor(
     private val moviesRepository: MoviesApiRepository,
-    private val watchlistRepository: MediaDBRepository
+    private val mediaDBRepository: MediaDBRepository
 
     ) : ViewModel() {
 
@@ -36,7 +36,7 @@ class MovieDetailsFragmentViewModel @Inject constructor(
 
     fun checkIfFavorite(movieId: Int) {
         viewModelScope.launch {
-            val isInFavorites = watchlistRepository.isMovieInWatchlist(movieId)
+            val isInFavorites = mediaDBRepository.isMovieInWatchlist(movieId)
             _isFavorite.postValue(isInFavorites)
 
         }
@@ -47,7 +47,7 @@ class MovieDetailsFragmentViewModel @Inject constructor(
 
     fun checkIfWatched(movieId: Int) {
         viewModelScope.launch {
-            val isWatched = watchlistRepository.isMovieWatched(movieId)
+            val isWatched = mediaDBRepository.isMovieWatched(movieId)
             _isWatched.postValue(isWatched)
 
         }
@@ -76,7 +76,7 @@ class MovieDetailsFragmentViewModel @Inject constructor(
     fun modifyMovie(movie: Movie){
         viewModelScope.launch {
             val movieEntity = movie.toEntity()
-            watchlistRepository.addMovie(movieEntity)
+            mediaDBRepository.addMovie(movieEntity)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.bingeme.domain.repositories
 
+import com.example.bingeme.data.local.dao.MediaDao
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.MovieResponse
 import com.example.bingeme.data.remote.TmdbApiService
@@ -16,12 +17,33 @@ import javax.inject.Inject
  * @param watchlistDao Injected DAO for accessing watchlist-related database operations.
  */
 class MoviesApiRepository @Inject constructor(
-    override val apiService: TmdbApiService
+    override val apiService: TmdbApiService,
+    private val mediaDao: MediaDao
 ) : TmdbApiBaseRepository(apiService) {
 
-    suspend fun getPopularMovies(apiKey: String, page: Int): Response<MovieResponse> {
-        return apiService.getPopularMovies(apiKey, page = page)
+    suspend fun getPopularMovies(apiKey: String, page: Int = 1): Response<MovieResponse> {
+        val response = apiService.getPopularMovies(apiKey, page = page)
+
+        if (!response.isSuccessful) {
+            return response
+        }
+
+        val movieList = response.body()?.results ?: emptyList()
+
+        // ✅ Fetch all favorite and watched movies IDs in a single query
+        val favoriteIds = mediaDao.getFavoriteMoviesIds()
+        val watchedIds = mediaDao.getWatchedMoviesIds()
+
+        movieList.forEach { movie ->
+            movie.isFavorite = movie.id in favoriteIds
+            movie.isWatched = movie.id in watchedIds
+        }
+
+        val updatedResponse = response.body()?.copy(results = movieList)
+
+        return Response.success(updatedResponse)
     }
+
 
     suspend fun getMovieDetails(apiKey: String, token: String, movieId: Int): Response<Movie> {
         val response: Response<Movie> = apiService.getMovieDetails(movieId, apiKey)
@@ -43,10 +65,6 @@ class MoviesApiRepository @Inject constructor(
 
     suspend fun searchMovies(query: String): Response<MovieResponse> {
         return apiService.searchMovies(Constants.API_KEY, query)
-    }
-
-    suspend fun getTopRatedMovies(apiKey: String, page: Int = 1): Response<MovieResponse> {
-        return apiService.getTopRatedMovies(apiKey, language = "en-US", page = page) // ✅ הוספת `language`
     }
 
 

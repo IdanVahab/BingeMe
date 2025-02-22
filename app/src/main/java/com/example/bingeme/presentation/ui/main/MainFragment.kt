@@ -11,10 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bingeme.R
+import com.example.bingeme.data.models.Movie
+import com.example.bingeme.data.models.Series
 import com.example.bingeme.databinding.FragmentMainBinding
 import com.example.bingeme.presentation.adapters.MediaItemAdapter
-import com.example.bingeme.presentation.adapters.SeriesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,7 +25,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var moviesAdapter: MediaItemAdapter
-    private lateinit var seriesAdapter: SeriesAdapter
+    private lateinit var seriesAdapter: MediaItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,28 +45,43 @@ class MainFragment : Fragment() {
     }
 
     private fun setupAdapters() {
-        moviesAdapter = MediaItemAdapter(emptyList()) { mediaItem ->
-            val action = MainFragmentDirections.actionMainFragmentToMovieDetailsFragment(mediaItem.id)
-            findNavController().navigate(action)
-        }
+        moviesAdapter = MediaItemAdapter(emptyList(),
+            onItemClick = { mediaItem ->
+                val action = MainFragmentDirections
+                    .actionMainFragmentToMovieDetailsFragment(mediaItem.id)
+                findNavController().navigate(action)
+            },
+            onFavoriteClick = { mediaItem ->
+                viewModel.modifyMovie(mediaItem as Movie)
+            },
+            onWatchedClick = { mediaItem ->
+                viewModel.modifyMovie(mediaItem as Movie)
+            }
+        )
         binding.moviesRecyclerView.adapter = moviesAdapter
         binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        seriesAdapter = SeriesAdapter(emptyList()) { series ->
-            val action = MainFragmentDirections.actionMainFragmentToSeriesDetailsFragment(series.id)
-            findNavController().navigate(action)
-        }
+        seriesAdapter = MediaItemAdapter(emptyList(),
+            onItemClick = { mediaItem ->
+                val action = MainFragmentDirections
+                    .actionMainFragmentToSeriesDetailsFragment(mediaItem.id)
+                findNavController().navigate(action)
+            },
+            onFavoriteClick = { mediaItem ->
+                viewModel.modifySeries(mediaItem as Series)
+            },
+            onWatchedClick = { mediaItem ->
+                viewModel.modifySeries(mediaItem as Series)
+            }
+        )
         binding.seriesRecyclerView.adapter = seriesAdapter
         binding.seriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        binding.watchedButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_watchedFragment)
-        }
 
     }
 
     private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { viewModel.searchMoviesAndSeries(it) }
                 return true
@@ -77,28 +92,6 @@ class MainFragment : Fragment() {
                 return true
             }
         })
-    }
-
-    private fun setupPagingButtons() {
-        binding.nextPageButton.setOnClickListener { viewModel.loadNextPage() }
-        binding.prevPageButton.setOnClickListener { viewModel.loadPreviousPage() }
-
-        binding.moviesButton.setOnClickListener {
-            viewModel.setCurrentListType(MainFragmentViewModel.ListType.MOVIES)
-            viewModel.fetchTopRatedMovies()
-            showMoviesList()
-        }
-
-        binding.seriesButton.setOnClickListener {
-            viewModel.setCurrentListType(MainFragmentViewModel.ListType.SERIES)
-            viewModel.fetchTopRatedSeries()
-            showSeriesList()
-        }
-
-        binding.watchlistButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToWatchlistFragment()
-            findNavController().navigate(action)
-        }
     }
 
     private fun observeViewModel() {
@@ -112,7 +105,7 @@ class MainFragment : Fragment() {
                 launch {
                     viewModel.currentSeries.collect { series ->
                         println("🔄 Updating UI with ${series.size} series") // ✅ בדיקה שהתצוגה מקבלת את הנתונים
-                        seriesAdapter.updateSeries(series)
+                        seriesAdapter.updateData(series)
                     }
                 }
                 launch {
@@ -138,6 +131,7 @@ class MainFragment : Fragment() {
                                 binding.moviesRecyclerView.visibility = View.VISIBLE
                                 binding.seriesRecyclerView.visibility = View.GONE
                             }
+
                             MainFragmentViewModel.ListType.SERIES -> {
                                 binding.moviesRecyclerView.visibility = View.GONE
                                 binding.seriesRecyclerView.visibility = View.VISIBLE
@@ -146,6 +140,33 @@ class MainFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setupPagingButtons() {
+        binding.nextPageButton.setOnClickListener { viewModel.loadNextPage() }
+        binding.prevPageButton.setOnClickListener { viewModel.loadPreviousPage() }
+
+        binding.moviesButton.setOnClickListener {
+            viewModel.setCurrentListType(MainFragmentViewModel.ListType.MOVIES)
+            viewModel.getPopularMovies()
+            showMoviesList()
+        }
+
+        binding.seriesButton.setOnClickListener {
+            viewModel.setCurrentListType(MainFragmentViewModel.ListType.SERIES)
+            viewModel.getPopularSeries()
+            showSeriesList()
+        }
+
+        binding.watchlistButton.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToWatchlistFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.watchedButton.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToWatchedFragment()
+            findNavController().navigate(action)
         }
     }
 
