@@ -22,10 +22,10 @@ interface MediaDao {
     @Delete
     suspend fun deleteSeries(series: SeriesEntity)
 
-    @Query("SELECT * FROM movies")
-    fun getAllMovies(): Flow<List<MovieEntity>>
-    @Query("SELECT * FROM series")
-    fun getAllSeries(): Flow<List<SeriesEntity>>
+    @Query("SELECT * FROM movies WHERE isFavorite = 1")
+    fun getAllFavoriteMovies(): Flow<List<MovieEntity>>
+    @Query("SELECT * FROM series WHERE isFavorite = 1")
+    fun getAllFavoriteSeries(): Flow<List<SeriesEntity>>
 
     @Query("SELECT EXISTS(SELECT 1 FROM movies WHERE id = :movieId AND isFavorite = 1)")
     suspend fun isMovieInWatchlist(movieId: Int): Boolean
