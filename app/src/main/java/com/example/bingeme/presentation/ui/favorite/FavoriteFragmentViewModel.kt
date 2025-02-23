@@ -23,6 +23,9 @@ class FavoriteFragmentViewModel @Inject constructor(
 
     val favoriteSeries: Flow<List<Series>> = mediaDBRepository.getFavoriteSeries()
 
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> get() = _toastMessage
+
 
     private val _currentListType = MutableStateFlow(ListType.MOVIES)
     val currentListType: StateFlow<ListType> get() = _currentListType
@@ -32,8 +35,10 @@ class FavoriteFragmentViewModel @Inject constructor(
             val movieEntity = movie.toEntity()
             if(movieEntity.isFavorite||movieEntity.isWatched) {
                 mediaDBRepository.addEditMovie(movieEntity)
+                _toastMessage.value = "${movie.title} added to watchlist or favorites."
             }else{
                 mediaDBRepository.removeMovie(movieEntity)
+                _toastMessage.value = "${movie.title} removed from watchlist or favorites."
             }
         }
     }
@@ -43,12 +48,19 @@ class FavoriteFragmentViewModel @Inject constructor(
             val seriesEntity = series.toEntity()
             if(seriesEntity.isFavorite||seriesEntity.isWatched) {
                 mediaDBRepository.addEditSeries(seriesEntity)
+                _toastMessage.value = "${series.title} added to watchlist or favorites."
             }else{
                 mediaDBRepository.removeSeries(seriesEntity)
+                _toastMessage.value = "${series.title} removed from watchlist or favorites."
             }
 
         }
     }
+
+    fun clearToastMessage() {
+        _toastMessage.value = null
+    }
+
 
     // ✅ עדכון סוג הרשימה הפעילה
     fun setCurrentListType(type: ListType) {
