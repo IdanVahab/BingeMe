@@ -1,10 +1,14 @@
 package com.example.bingeme.domain.repositories
 
+import android.content.Context
+import com.example.bingeme.R
 import com.example.bingeme.data.local.dao.MediaDao
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.MovieResponse
 import com.example.bingeme.data.remote.TmdbApiService
 import com.example.bingeme.utils.Constants
+import com.example.bingeme.utils.LanguageManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -18,11 +22,11 @@ import javax.inject.Inject
  */
 class MoviesApiRepository @Inject constructor(
     override val apiService: TmdbApiService,
-    private val mediaDao: MediaDao
+    private val mediaDao: MediaDao,
 ) : TmdbApiBaseRepository(apiService) {
 
     suspend fun getPopularMovies(apiKey: String, page: Int = 1): Response<MovieResponse> {
-        val response = apiService.getPopularMovies(apiKey, page = page)
+        val response = apiService.getPopularMovies(apiKey, page = page, language = LanguageManager.apiLanguage )
 
         if (!response.isSuccessful) {
             return response
@@ -46,7 +50,7 @@ class MoviesApiRepository @Inject constructor(
 
 
     suspend fun getMovieDetails(apiKey: String, token: String, movieId: Int): Response<Movie> {
-        val response: Response<Movie> = apiService.getMovieDetails(movieId, apiKey)
+        val response: Response<Movie> = apiService.getMovieDetails(movieId, apiKey,language =LanguageManager.apiLanguage)
 
         if (response.isSuccessful) {
             response.body()?.let { movie ->
@@ -64,15 +68,12 @@ class MoviesApiRepository @Inject constructor(
     }
 
     suspend fun searchMovies(query: String): Response<MovieResponse> {
-        return apiService.searchMovies(Constants.API_KEY, query)
+        return apiService.searchMovies(Constants.API_KEY, query,language =LanguageManager.apiLanguage)
     }
-
 
     // ✅ פונקציה להחזרת apiService
     fun provideApiService(): TmdbApiService {
         return apiService
     }
-
-
 
 }

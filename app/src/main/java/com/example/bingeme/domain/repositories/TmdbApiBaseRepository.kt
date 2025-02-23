@@ -1,7 +1,11 @@
 package com.example.bingeme.domain.repositories
 
+import android.content.Context
+import com.example.bingeme.R
 import com.example.bingeme.data.remote.TmdbApiService
 import com.example.bingeme.data.models.VideoResponse
+import com.example.bingeme.utils.LanguageManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -12,7 +16,7 @@ import javax.inject.Inject
  * @param apiService Injected TMDB API service for fetching movie and series data.
  */
 open class TmdbApiBaseRepository @Inject constructor(
-    protected open val apiService: TmdbApiService
+    protected open val apiService: TmdbApiService,
 ) {
 
     /**
@@ -25,9 +29,9 @@ open class TmdbApiBaseRepository @Inject constructor(
      */
     suspend fun getTrailerUrl(token: String, id: Int, isMovie: Boolean): String? {
         val response: Response<VideoResponse> = if (isMovie) {
-            apiService.getMovieTrailer(token, id)
+            apiService.getMovieTrailer(token, id,LanguageManager.apiLanguage)
         } else {
-            apiService.getTVSeriesTrailer(token, id)
+            apiService.getTVSeriesTrailer(token, id,LanguageManager.apiLanguage)
         }
 
         if (response.isSuccessful) {
