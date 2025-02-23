@@ -28,7 +28,7 @@ interface TmdbApiService {
     @GET("tv/popular")
     suspend fun getPopularTVSeries(
         @Query("api_key") apiKey: String,
-        @Query("language") language: String = "en-US",
+        @Query("language") language: String,
         @Query("page") page: Int = 1
     ): Response<SeriesResponse>
 
