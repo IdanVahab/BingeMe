@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -11,20 +12,94 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:title="BingeMe"
-        android:titleTextColor="@android:color/white"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:backgroundTint="@color/background_light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- לוגו האפליקציה -->
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:src="@drawable/app_logo"
+                android:layout_marginStart="1dp"
+                android:padding="8dp" />
+
+            <!-- שם האפליקציה -->
+            <TextView
+                android:id="@+id/app_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@string/app_name"
+                android:textColor="@android:color/black"
+                android:textSize="27dp"
+                android:fontFamily="@font/stretchpro"
+                android:gravity="center"/>
+
+            <!-- קבוצה של כפתורים -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginEnd="8dp"
+                android:padding="1dp">
+
+                <!-- כפתור 1: מועדפים -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="37dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@android:color/transparent"
+                    android:padding="4dp"
+                    android:text=""
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/bookmark_heart"
+                    app:iconSize="24dp"
+                    app:iconTint="@android:color/black" />
+
+                <!-- כפתור 2: נצפו -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_watched"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:padding="4dp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/bookmark_whatched"
+                    app:iconSize="24dp"
+                    app:iconTint="@android:color/black"
+                    android:text="" />
+
+                <!-- כפתור 3: חיפוש -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@android:color/white"
+                    android:padding="10dp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/search"
+                    app:iconSize="24dp"
+                    app:iconTint="@android:color/black" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- NavHostFragment -->
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:navGraph="@navigation/nav_graph"
-        app:defaultNavHost="true"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:defaultNavHost="true"/>
+</LinearLayout>

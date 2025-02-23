@@ -5,4 +5,30 @@
     <color name="red">#FF0000</color>
     <color name="background">#FFFFFF</color> <!-- מצב בהיר -->
     <color name="light_gray">#D3D3D3</color>
+
+        <!-- צבעי בסיס -->
+        <color name="blue_dark">#0A2540</color> <!-- כחול כהה עמוק -->
+        <color name="blue_primary">#1976D2</color> <!-- כחול ראשי (דומה לכחול Material) -->
+        <color name="blue_light">#42A5F5</color> <!-- כחול בהיר -->
+        <color name="cyan">#00BCD4</color> <!-- טורקיז חזק -->
+        <color name="sky_blue">#87CEEB</color> <!-- כחול שמיים -->
+        <color name="light_cyan">#E0F7FA</color> <!-- תכלת בהיר מאוד -->
+
+        <!-- צבעי רקע -->
+        <color name="background_light">#E3F2FD</color> <!-- רקע תכלת בהיר למצב אור -->
+        <color name="background_dark">#0A192F</color> <!-- רקע כחול כהה למצב כהה -->
+
+        <!-- צבעים מותאמים לטקסט -->
+        <color name="text_primary">#0A2540</color> <!-- טקסט כהה לכחול -->
+        <color name="text_secondary">#42A5F5</color> <!-- טקסט משני בגוון כחול בהיר -->
+        <color name="text_white">#FFFFFF</color> <!-- טקסט לבן -->
+
+        <!-- צבעי גבולות והצללות -->
+        <color name="border_blue">#2196F3</color> <!-- מסגרת כחולה -->
+        <color name="shadow_blue">#1565C0</color> <!-- צל כהה לכחול -->
+
+        <!-- צבעי הדגשה -->
+        <color name="accent_blue">#1E88E5</color> <!-- כחול להדגשות -->
+        <color name="highlight_cyan">#80DEEA</color> <!-- תכלת עדין להבלטה -->
+
 </resources>
