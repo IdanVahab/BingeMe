@@ -17,29 +17,14 @@ import retrofit2.http.Query
  */
 interface TmdbApiService {
 
-    /**
-     * Fetches a list of popular movies from the TMDB API.
-     *
-     * @param apiKey The API key for authenticating the request.
-     * @param language The language for the movie data (default is "en-US").
-     * @param page The page number for paginated results (default is 1).
-     * @return A Response object containing a MovieResponse with the list of popular movies.
-     */
+
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Query("api_key") apiKey: String,
-        @Query("language") language: String = "en-US",
+        @Query("language") language: String,
         @Query("page") page: Int = 1
     ): Response<MovieResponse>
 
-    /**
-     * Fetches a list of popular movies from the TMDB API.
-     *
-     * @param apiKey The API key for authenticating the request.
-     * @param language The language for the movie data (default is "en-US").
-     * @param page The page number for paginated results (default is 1).
-     * @return A Response object containing a SeriesResponse with the list of popular tv series.
-     */
     @GET("tv/popular")
     suspend fun getPopularTVSeries(
         @Query("api_key") apiKey: String,
@@ -47,29 +32,15 @@ interface TmdbApiService {
         @Query("page") page: Int = 1
     ): Response<SeriesResponse>
 
-    /**
-     * Fetches detailed information about a specific movie from the TMDB API.
-     *
-     * @param movieId The ID of the movie to retrieve details for.
-     * @param apiKey The API key for authenticating the request.
-     * @param language The language for the movie details (default is "en-US").
-     * @return A Response object containing a Movie with the movie's details.
-     */
+
+
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String,
-        @Query("language") language: String = "en-US"
+        @Query("language") language: String
     ): Response<Movie>
 
-    /**
-     * Fetches detailed information about a specific TV series from the TMDB API.
-     *
-     * @param tvId The ID of the TV series to retrieve details for.
-     * @param apiKey The API key for authenticating the request.
-     * @param language The language for the TV series details (default is "en-US").
-     * @return A Response object containing a TVShow with the series' details.
-     */
     @GET("tv/{tv_id}")
     suspend fun getTVSeriesDetails(
         @Path("tv_id") tvId: Int,
@@ -77,16 +48,7 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US"
     ): Response<Series>
 
-    /**
-     * Fetches the trailer video(s) for a specific movie from the TMDB API.
-     *
-     * TMDB requires an Authorization token for this request.
-     *
-     * @param token The Bearer token for API authentication.
-     * @param movieId The ID of the movie to retrieve the trailer for.
-     * @param language The language for the trailer data (default is "en-US").
-     * @return A Response object containing a VideoResponse with the trailer videos.
-     */
+
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieTrailer(
         @Header("Authorization") token: String,
@@ -94,16 +56,6 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US"
     ): Response<VideoResponse>
 
-    /**
-     * Fetches the trailer video(s) for a specific TV series from the TMDB API.
-     *
-     * TMDB requires an Authorization token for this request.
-     *
-     * @param token The Bearer token for API authentication.
-     * @param tvId The ID of the TV series to retrieve the trailer for.
-     * @param language The language for the trailer data (default is "en-US").
-     * @return A Response object containing a VideoResponse with the trailer videos.
-     */
     @GET("tv/{tv_id}/videos")
     suspend fun getTVSeriesTrailer(
         @Header("Authorization") token: String,
@@ -126,20 +78,6 @@ interface TmdbApiService {
         @Query("query") query: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ): Response<SeriesResponse>
-
-    @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(
-        @Query("api_key") apiKey: String,
-        @Query("language") language: String = "en-US",
-        @Query("page") page: Int
-    ): Response<MovieResponse>
-
-    @GET("tv/popular")
-    suspend fun getMostPopularSeries(
-        @Query("api_key") apiKey: String,
-        @Query("language") language: String = "en-US",
-        @Query("page") page: Int
     ): Response<SeriesResponse>
 
 }

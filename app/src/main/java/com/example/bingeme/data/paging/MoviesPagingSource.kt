@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.remote.TmdbApiService
+import com.example.bingeme.utils.LanguageManager
 
 class MoviesPagingSource(
     private val apiService: TmdbApiService,
@@ -13,7 +14,7 @@ class MoviesPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val page = params.key ?: 1
-            val response = apiService.getPopularMovies(apiKey, page = page)
+            val response = apiService.getPopularMovies(apiKey, page = page, language = LanguageManager.apiLanguage)
             val movies = response.body()?.results ?: emptyList()
 
             LoadResult.Page(

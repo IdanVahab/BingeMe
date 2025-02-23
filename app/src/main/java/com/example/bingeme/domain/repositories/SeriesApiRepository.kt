@@ -1,13 +1,16 @@
 package com.example.bingeme.domain.repositories
 
+import android.content.Context
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.example.bingeme.R
 import com.example.bingeme.data.local.dao.MediaDao
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.data.models.SeriesResponse
 import com.example.bingeme.data.paging.SeriesPagingSource
 import com.example.bingeme.data.remote.TmdbApiService
 import com.example.bingeme.utils.Constants
+import com.example.bingeme.utils.LanguageManager
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -21,7 +24,7 @@ import javax.inject.Inject
  */
 class SeriesApiRepository @Inject constructor(
     apiService: TmdbApiService,
-    private val mediaDao: MediaDao
+    private val mediaDao: MediaDao,
 ) : TmdbApiBaseRepository(apiService) {  // Extend BaseRepository
 
     /**
@@ -34,7 +37,7 @@ class SeriesApiRepository @Inject constructor(
     suspend fun getPopularSeries(page: Int): Response<SeriesResponse> {
         val response = apiService.getPopularTVSeries(
             apiKey = Constants.API_KEY,
-            language = "en-US",
+            language =LanguageManager.apiLanguage,
             page = page
         )
 
@@ -67,7 +70,7 @@ class SeriesApiRepository @Inject constructor(
      * @return A response containing the series details.
      */
     suspend fun getSeriesDetails(apiKey: String, token: String, seriesId: Int): Response<Series> {
-        val response: Response<Series> = apiService.getTVSeriesDetails(seriesId, apiKey)
+        val response: Response<Series> = apiService.getTVSeriesDetails(seriesId, apiKey,LanguageManager.apiLanguage)
 
         if (response.isSuccessful) {
             response.body()?.let { series ->
@@ -87,7 +90,7 @@ class SeriesApiRepository @Inject constructor(
 
 
     suspend fun searchSeries(query: String): Response<SeriesResponse> {
-        return apiService.searchSeries(Constants.API_KEY, query)
+        return apiService.searchSeries(Constants.API_KEY, query, LanguageManager.apiLanguage)
     }
 
     fun getMostPopularSeries(): Pager<Int, Series> {
