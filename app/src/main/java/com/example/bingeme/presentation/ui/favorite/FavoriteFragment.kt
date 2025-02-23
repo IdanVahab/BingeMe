@@ -50,8 +50,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private fun setupAdapters() {
         moviesAdapter = MediaItemAdapter(emptyList(),
             onItemClick = { mediaItem ->
-                val action = MainFragmentDirections
-                    .actionMainFragmentToMovieDetailsFragment(mediaItem.id)
+                val action = FavoriteFragmentDirections
+                    .actionFavoriteFragmentToMovieDetailsFragment(mediaItem.id)
                 findNavController().navigate(action)
             },
             onFavoriteClick = { mediaItem ->
@@ -66,8 +66,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
         seriesAdapter = MediaItemAdapter(emptyList(),
             onItemClick = { mediaItem ->
-                val action = MainFragmentDirections
-                    .actionMainFragmentToSeriesDetailsFragment(mediaItem.id)
+                val action = FavoriteFragmentDirections
+                    .actionFavoriteFragmentToSeriesDetailsFragment(mediaItem.id)
                 findNavController().navigate(action)
             },
             onFavoriteClick = { mediaItem ->

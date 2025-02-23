@@ -51,8 +51,8 @@ class WatchedFragment : Fragment(R.layout.fragment_watched) {
     private fun setupAdapters() {
         moviesAdapter = MediaItemAdapter(emptyList(),
             onItemClick = { mediaItem ->
-                val action = MainFragmentDirections
-                    .actionMainFragmentToMovieDetailsFragment(mediaItem.id)
+                val action = WatchedFragmentDirections
+                    .actionWatchedFragmentToMovieDetailsFragment(mediaItem.id)
                 findNavController().navigate(action)
             },
             onFavoriteClick = { mediaItem ->
@@ -67,8 +67,8 @@ class WatchedFragment : Fragment(R.layout.fragment_watched) {
 
         seriesAdapter = MediaItemAdapter(emptyList(),
             onItemClick = { mediaItem ->
-                val action = MainFragmentDirections
-                    .actionMainFragmentToSeriesDetailsFragment(mediaItem.id)
+                val action = WatchedFragmentDirections
+                    .actionWatchedFragmentToSeriesDetailsFragment(mediaItem.id)
                 findNavController().navigate(action)
             },
             onFavoriteClick = { mediaItem ->
