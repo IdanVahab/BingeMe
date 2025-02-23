@@ -7,12 +7,10 @@ import com.example.bingeme.data.models.Series
 import com.example.bingeme.domain.repositories.MediaDBRepository
 import com.example.bingeme.presentation.ui.main.MainFragmentViewModel.ListType
 import com.example.bingeme.utils.toEntity
-import com.example.bingeme.utils.toModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,14 +30,23 @@ class FavoriteFragmentViewModel @Inject constructor(
     fun modifyMovie(movie: Movie){
         viewModelScope.launch {
             val movieEntity = movie.toEntity()
-            mediaDBRepository.addMovie(movieEntity)
+            if(movieEntity.isFavorite||movieEntity.isWatched) {
+                mediaDBRepository.addEditMovie(movieEntity)
+            }else{
+                mediaDBRepository.removeMovie(movieEntity)
+            }
         }
     }
 
     fun modifySeries(series: Series){
         viewModelScope.launch {
             val seriesEntity = series.toEntity()
-            mediaDBRepository.addSeries(seriesEntity)
+            if(seriesEntity.isFavorite||seriesEntity.isWatched) {
+                mediaDBRepository.addEditSeries(seriesEntity)
+            }else{
+                mediaDBRepository.removeSeries(seriesEntity)
+            }
+
         }
     }
 

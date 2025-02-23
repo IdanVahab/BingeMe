@@ -76,7 +76,7 @@ class SeriesDetailsFragmentViewModel @Inject constructor(
     fun modifySeries(series: Series){
         viewModelScope.launch {
             val seriesEntity = series.toEntity()
-            mediaDBRepository.addSeries(seriesEntity)
+            mediaDBRepository.addEditSeries(seriesEntity)
         }
     }
 

@@ -55,14 +55,22 @@ class MainFragmentViewModel @Inject constructor(
     fun modifyMovie(movie: Movie){
         viewModelScope.launch {
             val movieEntity = movie.toEntity()
-            mediaDBRepository.addMovie(movieEntity)
+            if(movieEntity.isFavorite ||movieEntity.isWatched){
+                mediaDBRepository.addEditMovie(movieEntity)
+            }else{
+                mediaDBRepository.removeMovie(movieEntity)
+            }
         }
     }
 
     fun modifySeries(series: Series){
         viewModelScope.launch {
             val seriesEntity = series.toEntity()
-            mediaDBRepository.addSeries(seriesEntity)
+            if(seriesEntity.isFavorite ||seriesEntity.isWatched){
+                mediaDBRepository.addEditSeries(seriesEntity)
+            }else{
+                mediaDBRepository.removeSeries(seriesEntity)
+            }
         }
     }
 

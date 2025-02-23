@@ -76,7 +76,12 @@ class MovieDetailsFragmentViewModel @Inject constructor(
     fun modifyMovie(movie: Movie){
         viewModelScope.launch {
             val movieEntity = movie.toEntity()
-            mediaDBRepository.addMovie(movieEntity)
+            if(movieEntity.isWatched || !movieEntity.isFavorite){
+                mediaDBRepository.addEditMovie(movieEntity)
+            }else{
+                mediaDBRepository.removeMovie(movieEntity)
+            }
+
         }
     }
 
