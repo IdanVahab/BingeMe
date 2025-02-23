@@ -57,8 +57,11 @@ class MainFragmentViewModel @Inject constructor(
             val movieEntity = movie.toEntity()
             if(movieEntity.isFavorite ||movieEntity.isWatched){
                 mediaDBRepository.addEditMovie(movieEntity)
+                _toastMessage.value = "${movie.title} added to watchlist or favorites."
             }else{
                 mediaDBRepository.removeMovie(movieEntity)
+                _toastMessage.value = "${movie.title} removed from watchlist or favorites."
+
             }
         }
     }
@@ -68,11 +71,23 @@ class MainFragmentViewModel @Inject constructor(
             val seriesEntity = series.toEntity()
             if(seriesEntity.isFavorite ||seriesEntity.isWatched){
                 mediaDBRepository.addEditSeries(seriesEntity)
+                _toastMessage.value = "${series.title} added to watchlist or favorites."
+
             }else{
                 mediaDBRepository.removeSeries(seriesEntity)
+                _toastMessage.value = "${series.title} removed from watchlist or favorites."
             }
         }
     }
+
+    fun clearToastMessage() {
+        _toastMessage.value = null
+    }
+
+
+    private val _toastMessage = MutableStateFlow<String?>(null)
+    val toastMessage: StateFlow<String?> get() = _toastMessage
+
 
 
     // ✅ משתנה למעקב אחרי הרשימה הפעילה (סרטים / סדרות)
