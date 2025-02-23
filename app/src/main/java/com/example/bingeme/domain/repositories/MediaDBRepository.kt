@@ -15,19 +15,20 @@ class MediaDBRepository @Inject constructor(
     private val mediaDao: MediaDao
 ) {
 
-    suspend fun addMovie(movieEntity: MovieEntity) {
+    suspend fun addEditMovie(movieEntity: MovieEntity) {
         mediaDao.insertMovie(movieEntity)
     }
-    suspend fun addSeries(series: SeriesEntity) {
+    suspend fun addEditSeries(series: SeriesEntity) {
         Log.d("WatchlistRepository", "Adding series to watchlist: ${series.id} ")
         mediaDao.insertSeries(series)
     }
 
-
     suspend fun removeMovie(movieEntity: MovieEntity) {
         mediaDao.deleteMovie(movieEntity)
     }
-    suspend fun removeSeries(series: SeriesEntity) = mediaDao.deleteSeries(series)
+    suspend fun removeSeries(series: SeriesEntity) {
+        mediaDao.deleteSeries(series)
+    }
 
 
     fun getFavoriteMovies(): Flow<List<Movie>> {

@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface MediaDao {
+
+//Add or edit
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movie: MovieEntity)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
