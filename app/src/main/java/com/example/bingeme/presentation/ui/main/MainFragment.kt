@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -174,6 +175,8 @@ class MainFragment : Fragment() {
         binding.moviesRecyclerView.visibility = View.VISIBLE
         binding.seriesRecyclerView.visibility = View.GONE
         binding.pageNumberText.visibility = View.VISIBLE
+        binding.moviesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+        binding.seriesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
         binding.searchView.setQuery("", false)
         viewModel.searchMoviesAndSeries("")
     }
@@ -182,6 +185,8 @@ class MainFragment : Fragment() {
         binding.seriesRecyclerView.visibility = View.VISIBLE
         binding.moviesRecyclerView.visibility = View.GONE
         binding.pageNumberText.visibility = View.VISIBLE
+        binding.moviesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
+        binding.seriesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
         binding.searchView.setQuery("", false)
         viewModel.searchMoviesAndSeries("")
     }
