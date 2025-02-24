@@ -8,7 +8,9 @@
 
         <!-- צבעי בסיס -->
         <color name="blue_dark">#0A2540</color> <!-- כחול כהה עמוק -->
-        <color name="blue_primary">#1976D2</color> <!-- כחול ראשי (דומה לכחול Material) -->
+    <color name="blue_dark1">#0A2537</color> <!-- כחול כהה עמוק -->
+
+    <color name="blue_primary">#1976D2</color> <!-- כחול ראשי (דומה לכחול Material) -->
         <color name="blue_light">#42A5F5</color> <!-- כחול בהיר -->
         <color name="cyan">#00BCD4</color> <!-- טורקיז חזק -->
         <color name="sky_blue">#87CEEB</color> <!-- כחול שמיים -->

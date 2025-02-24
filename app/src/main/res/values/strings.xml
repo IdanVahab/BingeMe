@@ -22,6 +22,12 @@
         <string name="next">Next</string>
         <string name="series_page">Series Page </string>
         <string name="movie_page">Movie Page </string>
+        <string name="go_to_watchlist">Go to Watchlist</string>
+        <string name="go_to_watched_movies">Go to Watched Movies</string>
+        <string name="movies">Movies</string>
+        <string name="series">Series</string>
+        <string name="start_binging">Start Binging!</string>
+        <string name="favorite">Favorite</string>
         <string name="added_to_favorites">%1$s added to favorites.</string>
         <string name="removed_from_favorites">%1$s removed from favorites.</string>
         <string name="added_to_watched">%1$s added to Watched.</string>

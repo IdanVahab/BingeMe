@@ -67,7 +67,7 @@
                     android:layout_gravity="center"
                     android:backgroundTint="@android:color/transparent"
                     android:onClick="showMoviesList"
-                    android:text="Movies"
+                    android:text="@string/movies"
                     android:textColor="@android:color/black" />
             </androidx.cardview.widget.CardView>
 
@@ -89,7 +89,7 @@
                     android:layout_gravity="center"
                     android:backgroundTint="@android:color/transparent"
                     android:onClick="showSeriesList"
-                    android:text="Series"
+                    android:text="@string/series"
                     android:textColor="@android:color/black" />
             </androidx.cardview.widget.CardView>
 
@@ -103,6 +103,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:paddingBottom="18dp"
         android:layout_marginTop="12dp">
 
         <Button
@@ -110,14 +111,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Go to Watchlist"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            android:text="@string/go_to_watchlist" />
 
         <Button
             android:id="@+id/watchedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Go to Watched Movies"
+            android:text="@string/go_to_watched_movies"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
