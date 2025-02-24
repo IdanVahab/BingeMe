@@ -58,6 +58,7 @@ class SeriesDetailsFragment : Fragment() {
             viewModel.checkIfWatched(seriesId)
             observeSeriesDetails(seriesId)
             updateFavoriteButtonState(viewModel.isFavorite.value ?: false)
+            updateWatchedButtonState(viewModel.isWatched.value ?: false)
 
         }
         viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->

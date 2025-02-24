@@ -1,6 +1,8 @@
 package com.example.bingeme.presentation.ui.main
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,17 +91,14 @@ class MainFragment : Fragment() {
     }
 
     private fun setupSearchView() {
-        binding.searchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { viewModel.searchMoviesAndSeries(it) }
-                return true
+        binding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                s?.let { viewModel.searchMoviesAndSeries(it.toString()) }
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { viewModel.searchMoviesAndSeries(it) }
-                return true
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
@@ -139,11 +138,14 @@ class MainFragment : Fragment() {
                             MainFragmentViewModel.ListType.MOVIES -> {
                                 binding.moviesRecyclerView.visibility = View.VISIBLE
                                 binding.seriesRecyclerView.visibility = View.GONE
+                                binding.searchView.text.clear()  // מחיקת הטקסט ב-EditText
+
                             }
 
                             MainFragmentViewModel.ListType.SERIES -> {
                                 binding.moviesRecyclerView.visibility = View.GONE
                                 binding.seriesRecyclerView.visibility = View.VISIBLE
+                                binding.searchView.text.clear()  // מחיקת הטקסט ב-EditText
                             }
                         }
                     }
@@ -192,7 +194,7 @@ class MainFragment : Fragment() {
         binding.pageNumberText.visibility = View.VISIBLE
         binding.moviesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
         binding.seriesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
-        binding.searchView.setQuery("", false)
+        binding.searchView.text.clear()  // מחיקת החיפוש
         viewModel.searchMoviesAndSeries("")
     }
 
@@ -202,7 +204,7 @@ class MainFragment : Fragment() {
         binding.pageNumberText.visibility = View.VISIBLE
         binding.moviesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
         binding.seriesButtonCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.white))
-        binding.searchView.setQuery("", false)
+        binding.searchView.text.clear()  // מחיקת החיפוש
         viewModel.searchMoviesAndSeries("")
     }
 }
