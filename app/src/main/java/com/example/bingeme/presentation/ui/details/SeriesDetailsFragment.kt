@@ -198,9 +198,9 @@ class SeriesDetailsFragment : Fragment() {
 
     private fun updateFavoriteButtonState(isFavorite: Boolean) {
         binding.favoriteButton.text = if (isFavorite) {
-            "Remove from Favorites"
+            getString(R.string.remove_from_favorites)
         } else {
-            "Add to Favorites"
+            getString(R.string.add_to_favorites)
         }
 
         val icon = if (isFavorite) {
@@ -216,9 +216,9 @@ class SeriesDetailsFragment : Fragment() {
 
     private fun updateWatchedButtonState(isWatched: Boolean) {
         val text = if (isWatched) {
-            "Watched"
+            getString(R.string.watched)
         } else {
-            "Not Watched"
+            getString(R.string.not_watched)
         }
 
         val icon = if (isWatched) {

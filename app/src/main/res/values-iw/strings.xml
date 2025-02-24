@@ -1,18 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BingeMe</string>
     <string name="movie_poster">פוסטר סרט</string>
     <string name="series_poster">פוסטר סדרה</string>
-    <string name="adult_content">לצפייה מגיל 18 ומעלה</string>
+    <string name="adult_content">לצפייה לקהל בוגר בלבד</string>
     <string name="ratingTitle">" דירוג"</string>
     <string name="rating">דירוג</string>
     <string name="language">שפה</string>
     <string name="popularity">פופולריות</string>
     <string name="runtime_not_available">משך זמן לא זמין</string>
-    <string name="family_friendly">מתאים לכל הגילאים</string>
+    <string name="family_friendly">מתאים לכל הצופים</string>
     <string name="unknown_age_restriction">הגבלת גיל לא ידועה</string>
     <string name="seasons_not_available">מידע על עונות לא זמין</string>
     <string name="episodes_not_available">מידע על פרקים לא זמין</string>
-    <string name="api_language">he-IL</string>
-
+    <string name="api_language">en-US</string>
+    <string name="remove_from_favorites">הסר מהמועדפים</string>
+    <string name="add_to_favorites">הוסף למועדפים</string>
+    <string name="watched">נצפה</string>
+    <string name="not_watched">לא נצפה</string>
+    <string name="previous">קודם</string>
+    <string name="next">הבא</string>
+    <string name="series_page">סדרות עמוד </string>
+    <string name="movie_page">סרטים עמוד </string>
 </resources>
