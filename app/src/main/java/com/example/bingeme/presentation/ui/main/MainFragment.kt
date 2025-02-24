@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bingeme.R
 import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.databinding.FragmentMainBinding
@@ -115,7 +116,7 @@ class MainFragment : Fragment() {
                 launch {
                     viewModel.currentMoviesPageFlow.collect { page ->
                         if (viewModel.currentListType.value == MainFragmentViewModel.ListType.MOVIES) {
-                            binding.pageNumberText.text = "Movies Page $page"
+                            binding.pageNumberText.text = getString(R.string.movie_page)+ page
                             binding.pageNumberText.visibility = View.VISIBLE
                         }
                     }
@@ -123,7 +124,7 @@ class MainFragment : Fragment() {
                 launch {
                     viewModel.currentSeriesPageFlow.collect { page ->
                         if (viewModel.currentListType.value == MainFragmentViewModel.ListType.SERIES) {
-                            binding.pageNumberText.text = "Series Page $page"
+                            binding.pageNumberText.text = getString(R.string.series_page)+ page
                             binding.pageNumberText.visibility = View.VISIBLE
                         }
                     }
