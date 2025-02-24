@@ -21,4 +21,9 @@
     <string name="next">הבא</string>
     <string name="series_page">סדרות עמוד </string>
     <string name="movie_page">סרטים עמוד </string>
+    <string name="added_to_favorites">%1$s נוסף למועדפים.</string>
+    <string name="removed_from_favorites">%1$s הוסר מהמועדפים.</string>
+    <string name="added_to_watched">%1$s נוסף לצפייה.</string>
+    <string name="removed_from_watched">%1$s הוסר מהצפייה.</string>
+
 </resources>

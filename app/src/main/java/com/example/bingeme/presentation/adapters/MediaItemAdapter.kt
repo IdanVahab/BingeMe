@@ -1,11 +1,13 @@
 package com.example.bingeme.presentation.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bingeme.R
@@ -19,6 +21,7 @@ import com.example.bingeme.data.models.Series
  * @param onItemClick Callback function to handle clicks on a media item.
  */
 class MediaItemAdapter(
+    private val context: Context,
     private var items: List<BaseMediaItem>,
     private val onItemClick: (BaseMediaItem) -> Unit,
     private val onFavoriteClick: (BaseMediaItem) -> Unit,
@@ -60,6 +63,7 @@ class MediaItemAdapter(
             val newFavoriteState = !mediaItem.isFavorite
             mediaItem.isFavorite = newFavoriteState
             updateFavoriteButtonState(holder.favoriteButton, mediaItem.isFavorite)
+            showFavoriteUpdateMessage(newFavoriteState,mediaItem.title)
             onFavoriteClick(mediaItem)
         }
 
@@ -68,6 +72,8 @@ class MediaItemAdapter(
             mediaItem.isWatched = newWatchedState
             updateWatchedButtonState(holder.watchedButton, mediaItem.isWatched)
             onWatchedClick(mediaItem)
+            showWatchedUpdateMessage(newWatchedState,mediaItem.title)
+
         }
 
         holder.itemView.setOnClickListener { onItemClick(mediaItem) }
@@ -89,6 +95,29 @@ class MediaItemAdapter(
         val icon = if (isWatched) R.drawable.watch_icon else R.drawable.not_watch_icon
         button.setImageResource(icon)
     }
+
+    private fun showFavoriteUpdateMessage(isFavorite: Boolean, title: String) {
+        val messageResId = if (isFavorite) {
+            R.string.added_to_favorites
+        } else {
+            R.string.removed_from_favorites
+        }
+        val message = context.getString(messageResId, title)
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showWatchedUpdateMessage(isWatched: Boolean, title: String) {
+        val messageResId = if (isWatched) {
+            R.string.added_to_watched
+        } else {
+            R.string.removed_from_watched
+        }
+        val message = context.getString(messageResId, title)
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+
+
 
 }
 
