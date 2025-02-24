@@ -5,27 +5,63 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
+    <!-- Main Fragment -->
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.bingeme.presentation.ui.main.MainFragment"
         android:label="Main Fragment"
         tools:layout="@layout/fragment_main">
+
+        <!-- ניווט לפרטי סרט -->
         <action
             android:id="@+id/action_mainFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            app:destination="@id/movieDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <!-- ניווט לרשימת מועדפים -->
         <action
             android:id="@+id/action_mainFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            app:destination="@id/favoriteFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <!-- ניווט לרשימת נצפים -->
         <action
             android:id="@+id/action_mainFragment_to_watchedFragment"
-            app:destination="@id/watchedFragment" />
+            app:destination="@id/watchedFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
 
+        <!-- ניווט לפרטי סדרה -->
         <action
             android:id="@+id/action_mainFragment_to_seriesDetailsFragment"
-            app:destination="@id/seriesDetailsFragment" />
+            app:destination="@id/seriesDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
-
+    <!-- Movie Details Fragment -->
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.example.bingeme.presentation.ui.details.MovieDetailsFragment"
@@ -36,6 +72,7 @@
             app:argType="integer" />
     </fragment>
 
+    <!-- Series Details Fragment -->
     <fragment
         android:id="@+id/seriesDetailsFragment"
         android:name="com.example.bingeme.presentation.ui.details.SeriesDetailsFragment"
@@ -46,22 +83,40 @@
             app:argType="integer" />
     </fragment>
 
+    <!-- Favorite Fragment (Watchlist) -->
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.bingeme.presentation.ui.favorite.FavoriteFragment"
         android:label="WatchlistFragment"
         tools:layout="@layout/fragment_favorite">
 
+        <!-- מעבר לפרטי סרט -->
         <action
             android:id="@+id/action_favoriteFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment">
+            app:destination="@id/movieDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/favoriteFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
             <argument
                 android:name="movieId"
                 app:argType="integer" />
         </action>
+
+        <!-- מעבר לפרטי סדרה -->
         <action
             android:id="@+id/action_favoriteFragment_to_seriesDetailsFragment"
-            app:destination="@id/seriesDetailsFragment">
+            app:destination="@id/seriesDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/favoriteFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
             <argument
                 android:name="seriesId"
                 app:argType="integer" />
@@ -69,27 +124,45 @@
 
     </fragment>
 
+    <!-- Watched Fragment -->
     <fragment
         android:id="@+id/watchedFragment"
         android:name="com.example.bingeme.presentation.ui.watched.WatchedFragment"
         android:label="Watched"
         tools:layout="@layout/fragment_watched">
+
+        <!-- מעבר לפרטי סרט -->
         <action
             android:id="@+id/action_watchedFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment">
+            app:destination="@id/movieDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/watchedFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
             <argument
                 android:name="movieId"
                 app:argType="integer" />
         </action>
+
+        <!-- מעבר לפרטי סדרה -->
         <action
             android:id="@+id/action_watchedFragment_to_seriesDetailsFragment"
-            app:destination="@id/seriesDetailsFragment">
+            app:destination="@id/seriesDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/watchedFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
             <argument
                 android:name="seriesId"
                 app:argType="integer" />
         </action>
 
     </fragment>
-
 
 </navigation>
