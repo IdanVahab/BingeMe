@@ -13,4 +13,5 @@
         <string name="seasons_not_available">Seasons information not available</string>
         <string name="episodes_not_available">Episodes information not available</string>
         <string name="api_language">en-US</string>
+        <string name="start_binging">Start Binging!</string>
 </resources>

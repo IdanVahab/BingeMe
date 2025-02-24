@@ -17,6 +17,7 @@ import com.example.bingeme.data.models.Movie
 import com.example.bingeme.data.models.Series
 import com.example.bingeme.databinding.FragmentMainBinding
 import com.example.bingeme.presentation.adapters.MediaItemAdapter
+import com.example.bingeme.utils.setupButtonWithAnimation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -157,7 +158,13 @@ class MainFragment : Fragment() {
 
     private fun setupPagingButtons() {
         binding.nextPageButton.setOnClickListener { viewModel.loadNextPage() }
-        binding.prevPageButton.setOnClickListener { viewModel.loadPreviousPage() }
+        setupButtonWithAnimation(binding.nextPageButton) {
+            viewModel.loadNextPage()
+        }
+
+        setupButtonWithAnimation(binding.prevPageButton) {
+            viewModel.loadPreviousPage()
+        }
 
         binding.moviesButton.setOnClickListener {
             viewModel.setCurrentListType(MainFragmentViewModel.ListType.MOVIES)
@@ -171,12 +178,12 @@ class MainFragment : Fragment() {
             showSeriesList()
         }
 
-        binding.favoriteButton.setOnClickListener {
+        setupButtonWithAnimation(binding.favoriteButton) {
             val action = MainFragmentDirections.actionMainFragmentToFavoriteFragment()
             findNavController().navigate(action)
         }
 
-        binding.watchedButton.setOnClickListener {
+        setupButtonWithAnimation(binding.watchedButton) {
             val action = MainFragmentDirections.actionMainFragmentToWatchedFragment()
             findNavController().navigate(action)
         }
