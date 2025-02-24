@@ -9,17 +9,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.ui.main.MainFragment"
     android:padding="16dp">
-
-    <!-- 🔹 Main Title -->
-    <TextView
-        android:id="@+id/mainTitle"
-        android:layout_width="wrap_content"
+    <!-- 🔹 Navigation Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start_binging"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:paddingBottom="8dp"
-        android:layout_marginTop="16dp"/>
+        android:orientation="horizontal"
+        android:paddingBottom="18dp"
+        android:layout_marginTop="12dp">
+
+        <!-- 🔹 Main Title -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:layout_gravity="start">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/favorite_button"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:text=""
+                app:icon="@drawable/watched_list_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="40dp"
+                app:iconTint="@null" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/watchedButton"
+                android:layout_width="59dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                android:text=""
+                app:icon="@drawable/favorite_list_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="40dp"
+                app:iconTint="@null" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/mainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:text="@string/start_binging"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
 
     <!-- 🔹 Search View -->
     <androidx.appcompat.widget.SearchView
@@ -44,7 +93,7 @@
         <LinearLayout
             android:id="@+id/toggleButtonsContainer"
             android:layout_width="342dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             >
@@ -62,7 +111,7 @@
 
                 <Button
                     android:id="@+id/moviesButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:backgroundTint="@android:color/transparent"
@@ -84,7 +133,7 @@
 
                 <Button
                     android:id="@+id/seriesButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:backgroundTint="@android:color/transparent"
@@ -97,30 +146,8 @@
     </androidx.cardview.widget.CardView>
 
 
-    <!-- 🔹 Navigation Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingBottom="18dp"
-        android:layout_marginTop="12dp">
 
-        <Button
-            android:id="@+id/favorite_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:layout_marginEnd="8dp"
-            android:text="@string/go_to_watchlist" />
-
-        <Button
-            android:id="@+id/watchedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/go_to_watched_movies"
-            android:layout_marginStart="8dp"/>
-    </LinearLayout>
 
     <!-- 🔹 Progress Bar -->
     <ProgressBar

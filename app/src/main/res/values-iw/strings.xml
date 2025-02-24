@@ -21,8 +21,8 @@
     <string name="next">הבא</string>
     <string name="series_page">סדרות עמוד </string>
     <string name="movie_page">סרטים עמוד </string>
-    <string name="go_to_watchlist">עבור לרשימת הצפייה</string>
-    <string name="go_to_watched_movies">עבור לסרטים שנצפו</string>
+    <string name="go_to_favorite">עבור לרשימת מועדפים</string>
+    <string name="go_to_watched">עבור לרשימת נצפו</string>
     <string name="movies">סרטים</string>
     <string name="series">סדרות</string>
     <string name="start_binging">התחל לצפות ברצף!</string>
