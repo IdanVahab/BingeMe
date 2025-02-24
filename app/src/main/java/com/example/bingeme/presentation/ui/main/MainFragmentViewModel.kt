@@ -33,35 +33,16 @@ class MainFragmentViewModel @Inject constructor(
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
-    fun checkIfFavorite(movieId: Int) {
-        viewModelScope.launch {
-            val isInFavorites = mediaDBRepository.isMovieInWatchlist(movieId)
-            _isFavorite.postValue(isInFavorites)
-
-        }
-    }
-
     private val _isWatched = MutableLiveData<Boolean>()
     val isWatched: LiveData<Boolean> get() = _isWatched
-
-    fun checkIfWatched(movieId: Int) {
-        viewModelScope.launch {
-            val isWatched = mediaDBRepository.isMovieWatched(movieId)
-            _isWatched.postValue(isWatched)
-
-        }
-    }
 
     fun modifyMovie(movie: Movie){
         viewModelScope.launch {
             val movieEntity = movie.toEntity()
             if(movieEntity.isFavorite ||movieEntity.isWatched){
                 mediaDBRepository.addEditMovie(movieEntity)
-                _toastMessage.value = "${movie.title} added to watchlist or favorites."
             }else{
                 mediaDBRepository.removeMovie(movieEntity)
-                _toastMessage.value = "${movie.title} removed from watchlist or favorites."
-
             }
         }
     }
@@ -71,24 +52,12 @@ class MainFragmentViewModel @Inject constructor(
             val seriesEntity = series.toEntity()
             if(seriesEntity.isFavorite ||seriesEntity.isWatched){
                 mediaDBRepository.addEditSeries(seriesEntity)
-                _toastMessage.value = "${series.title} added to watchlist or favorites."
 
             }else{
                 mediaDBRepository.removeSeries(seriesEntity)
-                _toastMessage.value = "${series.title} removed from watchlist or favorites."
             }
         }
     }
-
-    fun clearToastMessage() {
-        _toastMessage.value = null
-    }
-
-
-    private val _toastMessage = MutableStateFlow<String?>(null)
-    val toastMessage: StateFlow<String?> get() = _toastMessage
-
-
 
     // ✅ משתנה למעקב אחרי הרשימה הפעילה (סרטים / סדרות)
     enum class ListType { MOVIES, SERIES }

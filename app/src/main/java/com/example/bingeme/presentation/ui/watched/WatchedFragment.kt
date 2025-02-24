@@ -51,7 +51,9 @@ class WatchedFragment : Fragment(R.layout.fragment_watched) {
     }
 
     private fun setupAdapters() {
-        moviesAdapter = MediaItemAdapter(emptyList(),
+        moviesAdapter = MediaItemAdapter(
+            requireContext(),
+            emptyList(),
             onItemClick = { mediaItem ->
                 val action = WatchedFragmentDirections
                     .actionWatchedFragmentToMovieDetailsFragment(mediaItem.id)
@@ -67,7 +69,9 @@ class WatchedFragment : Fragment(R.layout.fragment_watched) {
         _binding.moviesRecyclerView.adapter = moviesAdapter
         _binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        seriesAdapter = MediaItemAdapter(emptyList(),
+        seriesAdapter = MediaItemAdapter(
+            requireContext(),
+            emptyList(),
             onItemClick = { mediaItem ->
                 val action = WatchedFragmentDirections
                     .actionWatchedFragmentToSeriesDetailsFragment(mediaItem.id)

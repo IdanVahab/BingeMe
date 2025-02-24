@@ -50,7 +50,9 @@ class MainFragment : Fragment() {
     }
 
     private fun setupAdapters() {
-        moviesAdapter = MediaItemAdapter(emptyList(),
+        moviesAdapter = MediaItemAdapter(
+            requireContext(),
+            emptyList(),
             onItemClick = { mediaItem ->
                 val action = MainFragmentDirections
                     .actionMainFragmentToMovieDetailsFragment(mediaItem.id)
@@ -66,7 +68,9 @@ class MainFragment : Fragment() {
         binding.moviesRecyclerView.adapter = moviesAdapter
         binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        seriesAdapter = MediaItemAdapter(emptyList(),
+        seriesAdapter = MediaItemAdapter(
+            requireContext(),
+            emptyList(),
             onItemClick = { mediaItem ->
                 val action = MainFragmentDirections
                     .actionMainFragmentToSeriesDetailsFragment(mediaItem.id)
@@ -141,14 +145,6 @@ class MainFragment : Fragment() {
                                 binding.moviesRecyclerView.visibility = View.GONE
                                 binding.seriesRecyclerView.visibility = View.VISIBLE
                             }
-                        }
-                    }
-                }
-                launch {
-                    viewModel.toastMessage.collectLatest { message ->
-                        message?.let {
-                            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                            viewModel.clearToastMessage()  // ניקוי ההודעה לאחר הצגת הטוסט
                         }
                     }
                 }

@@ -27,5 +27,8 @@
     <string name="series">סדרות</string>
     <string name="start_binging">התחל לצפות ברצף!</string>
     <string name="favorite">מועדפים</string>
-
+    <string name="added_to_favorites">%1$s נוסף למועדפים.</string>
+    <string name="removed_from_favorites">%1$s הוסר מהמועדפים.</string>
+    <string name="added_to_watched">%1$s נוסף לצפייה.</string>
+    <string name="removed_from_watched">%1$s הוסר מהצפייה.</string>
 </resources>
