@@ -21,4 +21,8 @@
         <string name="next">Next</string>
         <string name="series_page">Series Page </string>
         <string name="movie_page">Movie Page </string>
+        <string name="added_to_favorites">%1$s added to favorites.</string>
+        <string name="removed_from_favorites">%1$s removed from favorites.</string>
+        <string name="added_to_watched">%1$s added to Watched.</string>
+        <string name="removed_from_watched">%1$s removed from Watched.</string>
 </resources>

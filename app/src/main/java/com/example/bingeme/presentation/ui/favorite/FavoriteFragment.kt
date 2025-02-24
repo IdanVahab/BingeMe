@@ -50,7 +50,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     }
 
     private fun setupAdapters() {
-        moviesAdapter = MediaItemAdapter(emptyList(),
+        moviesAdapter = MediaItemAdapter(
+            requireContext(),
+            emptyList(),
             onItemClick = { mediaItem ->
                 val action = FavoriteFragmentDirections
                     .actionFavoriteFragmentToMovieDetailsFragment(mediaItem.id)
@@ -66,7 +68,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         _binding.moviesRecyclerView.adapter = moviesAdapter
         _binding.moviesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        seriesAdapter = MediaItemAdapter(emptyList(),
+        seriesAdapter = MediaItemAdapter(
+            requireContext(),
+            emptyList(),
             onItemClick = { mediaItem ->
                 val action = FavoriteFragmentDirections
                     .actionFavoriteFragmentToSeriesDetailsFragment(mediaItem.id)

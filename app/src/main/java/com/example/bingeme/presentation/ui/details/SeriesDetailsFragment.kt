@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -78,6 +79,7 @@ class SeriesDetailsFragment : Fragment() {
                 it.isFavorite = this.isFavorite
                 viewModel.modifySeries(it)
                 updateWatchedButtonState(it.isWatched)
+                showWatchedUpdateMessage(this.isWatched,it.title)
             }
         }
 
@@ -89,6 +91,8 @@ class SeriesDetailsFragment : Fragment() {
                 it.isWatched = this.isWatched
                 viewModel.modifySeries(it)
                 updateFavoriteButtonState(it.isFavorite)
+                showFavoriteUpdateMessage(this.isFavorite,it.title)
+
             }
         }
     }
@@ -230,6 +234,28 @@ class SeriesDetailsFragment : Fragment() {
         binding.watchedButton.text = text
         binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
     }
+
+    private fun showFavoriteUpdateMessage(isFavorite: Boolean, title: String) {
+        val messageResId = if (isFavorite) {
+            R.string.added_to_favorites
+        } else {
+            R.string.removed_from_favorites
+        }
+        val message = context?.getString(messageResId, title)
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showWatchedUpdateMessage(isWatched: Boolean, title: String) {
+        val messageResId = if (isWatched) {
+            R.string.added_to_watched
+        } else {
+            R.string.removed_from_watched
+        }
+        val message = context?.getString(messageResId, title)
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+
 
     override fun onResume() {
         super.onResume()

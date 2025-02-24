@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -78,6 +79,7 @@ class MovieDetailsFragment : Fragment() {
                 it.isFavorite = this.isFavorite
                 viewModel.modifyMovie(it)
                 updateWatchedButtonState(it.isWatched)
+                showWatchedUpdateMessage(this.isWatched,it.title)
             }
         }
 
@@ -89,6 +91,7 @@ class MovieDetailsFragment : Fragment() {
                 it.isWatched = this.isWatched
                 viewModel.modifyMovie(it)
                 updateFavoriteButtonState(it.isFavorite)
+                showFavoriteUpdateMessage(this.isFavorite,it.title)
             }
         }
     }
@@ -235,6 +238,24 @@ class MovieDetailsFragment : Fragment() {
 
         binding.watchedButton.text = text
         binding.watchedButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, icon, 0)
+    }
+
+    private fun showFavoriteUpdateMessage(isFavorite: Boolean, title: String) {
+        val message = if (isFavorite) {
+            "$title added to favorites."
+        } else {
+            "$title removed from favorites."
+        }
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showWatchedUpdateMessage(isWatched: Boolean, title: String) {
+        val message = if (isWatched) {
+            "$title added to Watched."
+        } else {
+            "$title removed from Watched."
+        }
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() {
