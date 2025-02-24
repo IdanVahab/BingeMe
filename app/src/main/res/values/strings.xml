@@ -13,6 +13,9 @@
         <string name="seasons_not_available">Seasons information not available</string>
         <string name="episodes_not_available">Episodes information not available</string>
         <string name="api_language">en-US</string>
+<<<<<<< HEAD
+        <string name="start_binging">Start Binging!</string>
+=======
         <string name="remove_from_favorites">Remove from Favorites</string>
         <string name="add_to_favorites">Add to Favorites</string>
         <string name="watched">Watched</string>
@@ -21,4 +24,5 @@
         <string name="next">Next</string>
         <string name="series_page">Series Page </string>
         <string name="movie_page">Movie Page </string>
+>>>>>>> 48ec6babe3f50f1a4b48c713d8e78bf0990495a5
 </resources>
