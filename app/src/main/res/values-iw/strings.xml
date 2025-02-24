@@ -19,4 +19,6 @@
     <string name="not_watched">לא נצפה</string>
     <string name="previous">קודם</string>
     <string name="next">הבא</string>
+    <string name="series_page">סדרות עמוד </string>
+    <string name="movie_page">סרטים עמוד </string>
 </resources>
